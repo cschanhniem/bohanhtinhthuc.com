@@ -5,6 +5,7 @@ import sitemap from '@astrojs/sitemap';
 // https://astro.build/config
 export default defineConfig({
   site: 'https://bohanhtinhthuc.com',
+  base: '/',
   output: 'static',
   
   integrations: [
@@ -50,6 +51,7 @@ export default defineConfig({
           entryFileNames: 'assets/[name].[hash].js',
         },
       },
+      assetsDir: 'assets',
     },
   },
 
