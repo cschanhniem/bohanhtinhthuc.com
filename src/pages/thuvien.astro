@@ -1,0 +1,822 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import GlassCard from '../components/GlassCard.astro';
+import Button from '../components/Button.astro';
+
+// Sample gallery data (in a real app, this would come from the thuvien collection)
+const galleryImages = [
+  {
+    id: 1,
+    url: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+    alt: 'Hoàng hôn trên vùng đất Mũi Cà Mau',
+    caption: 'Hoàng hôn trên vùng đất Mũi - điểm khởi đầu của hành trình',
+    location: 'Cà Mau',
+    date: '2025-01-15',
+    tags: ['hoàng hôn', 'cà mau', 'khởi đầu']
+  },
+  {
+    id: 2,
+    url: 'https://images.unsplash.com/photo-1544966503-7cc5ac882d5d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+    alt: 'Con đường đồng quê Việt Nam',
+    caption: 'Những con đường đồng quê bình yên, nơi thời gian như chậm lại',
+    location: 'Đồng Tháp',
+    date: '2025-01-18',
+    tags: ['đường quê', 'đồng tháp', 'bình yên']
+  },
+  {
+    id: 3,
+    url: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+    alt: 'Rừng tre xanh mướt',
+    caption: 'Rừng tre xanh mướt - nơi tâm hồn tìm về sự tĩnh lặng',
+    location: 'An Giang',
+    date: '2025-01-20',
+    tags: ['rừng tre', 'an giang', 'tĩnh lặng']
+  },
+  {
+    id: 4,
+    url: 'https://images.unsplash.com/photo-1506629905645-b178a0b13bc8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+    alt: 'Thiền trong rừng',
+    caption: 'Khoảnh khắc thiền giữa thiên nhiên hoang dã',
+    location: 'Tây Ninh',
+    date: '2025-01-22',
+    tags: ['thiền', 'tây ninh', 'thiên nhiên']
+  },
+  {
+    id: 5,
+    url: 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+    alt: 'Rừng xanh bát ngát',
+    caption: 'Rừng xanh bát ngát - nơi con người tìm lại kết nối với tự nhiên',
+    location: 'Lâm Đồng',
+    date: '2025-01-25',
+    tags: ['rừng', 'lâm đồng', 'kết nối']
+  },
+  {
+    id: 6,
+    url: 'https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+    alt: 'Núi non hùng vĩ',
+    caption: 'Núi non hùng vĩ nhắc nhở về sự vĩnh cửu và khiêm nhường',
+    location: 'Khánh Hòa',
+    date: '2025-01-28',
+    tags: ['núi', 'khánh hòa', 'hùng vĩ']
+  }
+];
+
+// Get unique locations and tags for filtering
+const allLocations = [...new Set(galleryImages.map(img => img.location))];
+const allTags = [...new Set(galleryImages.flatMap(img => img.tags))];
+---
+
+<BaseLayout 
+  title="Thư viện ảnh - Hành trình qua ống kính"
+  description="Những hình ảnh đẹp được ghi lại trong suốt hành trình bộ hành xuyên Việt Nam. Mỗi bức ảnh kể một câu chuyện về con người, thiên nhiên và những khoảnh khắc tỉnh thức."
+>
+  <Header slot="header" />
+
+  <!-- Hero Section -->
+  <section class="relative py-24 lg:py-32 overflow-hidden">
+    <div class="absolute inset-0 z-0">
+      <div 
+        class="absolute inset-0 bg-cover bg-center"
+        style="background-image: url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80')"
+      ></div>
+      <div class="absolute inset-0 bg-gradient-to-b from-gray-900/70 via-gray-900/50 to-gray-900/70"></div>
+    </div>
+
+    <div class="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-text-primary mb-8 leading-tight">
+        <span class="text-gradient">Thư viện</span> hình ảnh
+      </h1>
+      
+      <p class="text-xl md:text-2xl text-text-secondary max-w-4xl mx-auto leading-relaxed mb-12">
+        Những khoảnh khắc đẹp được ghi lại trong suốt hành trình bộ hành xuyên Việt Nam. 
+        Mỗi bức ảnh kể một câu chuyện về con người, thiên nhiên và những trải nghiệm tỉnh thức.
+      </p>
+
+      <!-- Gallery Stats -->
+      <GlassCard class="inline-block">
+        <div class="grid grid-cols-3 gap-8 text-center">
+          <div>
+            <div class="text-3xl md:text-4xl font-bold text-accent-color mb-2">{galleryImages.length}</div>
+            <div class="text-sm text-text-secondary">Hình ảnh</div>
+          </div>
+          <div>
+            <div class="text-3xl md:text-4xl font-bold text-accent-color mb-2">{allLocations.length}</div>
+            <div class="text-sm text-text-secondary">Địa điểm</div>
+          </div>
+          <div>
+            <div class="text-3xl md:text-4xl font-bold text-accent-color mb-2">∞</div>
+            <div class="text-sm text-text-secondary">Kỷ niệm</div>
+          </div>
+        </div>
+      </GlassCard>
+    </div>
+  </section>
+
+  <!-- Filter Section -->
+  <section class="py-8 border-b border-white/10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between space-y-4 lg:space-y-0">
+        
+        <!-- View Options -->
+        <div class="flex items-center space-x-4">
+          <span class="text-text-secondary text-sm font-medium">Xem theo:</span>
+          <div class="flex items-center space-x-2">
+            <Button
+              variant="glass"
+              size="sm"
+              class="view-toggle active"
+              data-view="masonry"
+            >
+              Masonry
+            </Button>
+            <Button
+              variant="glass"
+              size="sm"
+              class="view-toggle"
+              data-view="grid"
+            >
+              Lưới
+            </Button>
+            <Button
+              variant="glass"
+              size="sm"
+              class="view-toggle"
+              data-view="slideshow"
+            >
+              Trình chiếu
+            </Button>
+          </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="flex flex-wrap items-center gap-4">
+          <select 
+            class="glass-card px-3 py-2 text-text-primary text-sm rounded-lg border-white/20 focus:outline-none focus:ring-2 focus:ring-accent-color"
+            id="location-filter"
+          >
+            <option value="">Tất cả địa điểm</option>
+            {allLocations.sort().map(location => (
+              <option value={location}>{location}</option>
+            ))}
+          </select>
+
+          <select 
+            class="glass-card px-3 py-2 text-text-primary text-sm rounded-lg border-white/20 focus:outline-none focus:ring-2 focus:ring-accent-color"
+            id="tag-filter"
+          >
+            <option value="">Tất cả chủ đề</option>
+            {allTags.sort().map(tag => (
+              <option value={tag}>{tag}</option>
+            ))}
+          </select>
+
+          <Button
+            variant="ghost"
+            size="sm"
+            id="clear-filters"
+            class="text-accent-color hover:text-primary-400"
+          >
+            Xóa bộ lọc
+          </Button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Gallery Section -->
+  <section class="py-16 lg:py-24">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Masonry Grid (Default) -->
+      <div id="masonry-view" class="columns-1 md:columns-2 lg:columns-3 xl:columns-4 gap-6 space-y-6">
+        {galleryImages.map((image, index) => (
+          <div 
+            class={`gallery-item break-inside-avoid animate-in animate-delay-${((index % 6) + 1) * 100}`}
+            data-location={image.location}
+            data-tags={image.tags.join(',')}
+            data-date={image.date}
+          >
+            <GlassCard padding="none" class="overflow-hidden group cursor-pointer hover:scale-[1.02] transition-transform duration-300">
+              <div class="relative">
+                <img
+                  src={image.url}
+                  alt={image.alt}
+                  class="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105"
+                  loading="lazy"
+                  data-full-url={image.url.replace('w=800', 'w=1600')}
+                />
+                
+                <!-- Overlay -->
+                <div class="absolute inset-0 bg-gradient-to-t from-gray-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <div class="absolute bottom-0 left-0 right-0 p-4">
+                    <p class="text-text-primary font-medium mb-2">{image.caption}</p>
+                    <div class="flex items-center justify-between text-sm text-text-secondary">
+                      <span>📍 {image.location}</span>
+                      <span>{new Date(image.date).toLocaleDateString('vi-VN')}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Tags -->
+                <div class="absolute top-2 left-2">
+                  <div class="flex flex-wrap gap-1">
+                    {image.tags.slice(0, 2).map(tag => (
+                      <span class="px-2 py-1 text-xs bg-gray-900/80 text-text-primary rounded-full">
+                        #{tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                <!-- Expand Icon -->
+                <div class="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <div class="w-8 h-8 bg-gray-900/80 rounded-full flex items-center justify-center">
+                    <svg class="w-4 h-4 text-text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </GlassCard>
+          </div>
+        ))}
+      </div>
+
+      <!-- Grid View (Hidden by default) -->
+      <div id="grid-view" class="hidden grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        {galleryImages.map((image, index) => (
+          <div 
+            class={`gallery-item animate-in animate-delay-${((index % 6) + 1) * 100}`}
+            data-location={image.location}
+            data-tags={image.tags.join(',')}
+            data-date={image.date}
+          >
+            <GlassCard padding="none" class="overflow-hidden group cursor-pointer hover:scale-[1.02] transition-transform duration-300">
+              <div class="relative aspect-square">
+                <img
+                  src={image.url}
+                  alt={image.alt}
+                  class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  loading="lazy"
+                  data-full-url={image.url.replace('w=800', 'w=1600')}
+                />
+                
+                <!-- Same overlay and tags as masonry view -->
+                <div class="absolute inset-0 bg-gradient-to-t from-gray-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <div class="absolute bottom-0 left-0 right-0 p-4">
+                    <p class="text-text-primary font-medium mb-2 text-sm line-clamp-2">{image.caption}</p>
+                    <div class="flex items-center justify-between text-xs text-text-secondary">
+                      <span>📍 {image.location}</span>
+                      <span>{new Date(image.date).toLocaleDateString('vi-VN')}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="absolute top-2 left-2">
+                  <div class="flex flex-wrap gap-1">
+                    {image.tags.slice(0, 1).map(tag => (
+                      <span class="px-2 py-1 text-xs bg-gray-900/80 text-text-primary rounded-full">
+                        #{tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                <div class="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <div class="w-8 h-8 bg-gray-900/80 rounded-full flex items-center justify-center">
+                    <svg class="w-4 h-4 text-text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </GlassCard>
+          </div>
+        ))}
+      </div>
+
+      <!-- Slideshow View (Hidden by default) -->
+      <div id="slideshow-view" class="hidden">
+        <div class="max-w-4xl mx-auto">
+          <GlassCard padding="none" class="overflow-hidden">
+            <div class="relative aspect-[16/9]">
+              <!-- Slideshow container -->
+              <div id="slideshow-container" class="relative w-full h-full">
+                {galleryImages.map((image, index) => (
+                  <div 
+                    class={`slideshow-slide absolute inset-0 transition-opacity duration-500 ${index === 0 ? 'opacity-100' : 'opacity-0'}`}
+                    data-slide={index}
+                  >
+                    <img
+                      src={image.url}
+                      alt={image.alt}
+                      class="w-full h-full object-cover"
+                      data-full-url={image.url.replace('w=800', 'w=1600')}
+                    />
+                    
+                    <!-- Caption Overlay -->
+                    <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-gray-900/90 via-gray-900/50 to-transparent p-6">
+                      <h3 class="text-text-primary font-semibold mb-2">{image.caption}</h3>
+                      <div class="flex items-center justify-between text-sm text-text-secondary">
+                        <span>📍 {image.location}</span>
+                        <span>{new Date(image.date).toLocaleDateString('vi-VN')}</span>
+                      </div>
+                      <div class="flex flex-wrap gap-2 mt-3">
+                        {image.tags.map(tag => (
+                          <span class="px-2 py-1 text-xs bg-accent-color/20 text-accent-color rounded-full">
+                            #{tag}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              
+              <!-- Navigation -->
+              <button
+                id="prev-slide"
+                class="absolute left-4 top-1/2 transform -translate-y-1/2 w-12 h-12 glass-card rounded-full flex items-center justify-center text-text-primary hover:text-accent-color transition-colors"
+              >
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                </svg>
+              </button>
+              
+              <button
+                id="next-slide"
+                class="absolute right-4 top-1/2 transform -translate-y-1/2 w-12 h-12 glass-card rounded-full flex items-center justify-center text-text-primary hover:text-accent-color transition-colors"
+              >
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+              </button>
+              
+              <!-- Slide Indicators -->
+              <div class="absolute bottom-6 left-1/2 transform -translate-x-1/2">
+                <div class="flex space-x-2">
+                  {galleryImages.map((_, index) => (
+                    <button
+                      class={`slide-indicator w-2 h-2 rounded-full transition-all duration-300 ${
+                        index === 0 ? 'bg-accent-color w-8' : 'bg-white/30 hover:bg-white/50'
+                      }`}
+                      data-slide={index}
+                    />
+                  ))}
+                </div>
+              </div>
+            </div>
+          </GlassCard>
+          
+          <!-- Slideshow Thumbnails -->
+          <div class="mt-6 flex space-x-4 overflow-x-auto pb-4">
+            {galleryImages.map((image, index) => (
+              <button
+                class={`slideshow-thumb flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 transition-all duration-300 ${
+                  index === 0 ? 'border-accent-color' : 'border-transparent hover:border-white/30'
+                }`}
+                data-slide={index}
+              >
+                <img
+                  src={image.url}
+                  alt={image.alt}
+                  class="w-full h-full object-cover"
+                />
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <!-- No Results -->
+      <div id="no-results" class="hidden text-center py-16">
+        <div class="w-24 h-24 bg-accent-color/20 rounded-full flex items-center justify-center mx-auto mb-6">
+          <svg class="w-12 h-12 text-accent-color/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+          </svg>
+        </div>
+        <h3 class="text-xl font-semibold text-text-primary mb-4">
+          Không tìm thấy hình ảnh nào
+        </h3>
+        <p class="text-text-secondary mb-6">
+          Thử thay đổi bộ lọc để xem các hình ảnh khác
+        </p>
+        <Button variant="outline" id="clear-filters-no-results">
+          Xóa tất cả bộ lọc
+        </Button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Download Section -->
+  <section class="py-16 lg:py-24 bg-gradient-to-b from-gray-900/30 to-transparent">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <GlassCard padding="xl">
+        <h2 class="text-2xl md:text-3xl font-bold text-text-primary mb-6">
+          Tải xuống bộ sưu tập
+        </h2>
+        
+        <p class="text-lg text-text-secondary mb-8 max-w-2xl mx-auto">
+          Bạn có thể tải xuống những hình ảnh này để sử dụng làm hình nền 
+          hoặc để tạo cảm hứng cho hành trình của riêng mình.
+        </p>
+        
+        <div class="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6">
+          <Button
+            variant="primary"
+            size="lg"
+            icon="download"
+            iconPosition="left"
+          >
+            Tải tất cả (ZIP)
+          </Button>
+          
+          <Button
+            variant="outline"
+            size="lg"
+            icon="heart"
+            iconPosition="left"
+          >
+            Tạo bộ sưu tập riêng
+          </Button>
+        </div>
+        
+        <p class="text-xs text-text-secondary mt-6">
+          Tất cả hình ảnh được chia sẻ dưới giấy phép Creative Commons. 
+          Vui lòng ghi nguồn khi sử dụng.
+        </p>
+      </GlassCard>
+    </div>
+  </section>
+
+  <!-- Image Modal -->
+  <div id="image-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-gray-900/90 backdrop-blur-sm">
+    <div class="relative max-w-7xl max-h-full m-4 flex items-center justify-center">
+      <!-- Close Button -->
+      <button
+        id="close-modal"
+        class="absolute top-4 right-4 z-10 w-12 h-12 glass-card rounded-full flex items-center justify-center text-text-primary hover:text-accent-color transition-colors"
+      >
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+      
+      <!-- Modal Content -->
+      <div class="glass-card rounded-xl overflow-hidden max-w-full max-h-full">
+        <img
+          id="modal-image"
+          src=""
+          alt=""
+          class="max-w-full max-h-[80vh] object-contain"
+        />
+        
+        <!-- Image Info -->
+        <div class="p-6 bg-gray-900/80">
+          <h3 id="modal-caption" class="text-text-primary font-semibold mb-2"></h3>
+          <div class="flex items-center justify-between text-sm text-text-secondary">
+            <span id="modal-location"></span>
+            <span id="modal-date"></span>
+          </div>
+          <div id="modal-tags" class="flex flex-wrap gap-2 mt-3"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <Footer slot="footer" />
+</BaseLayout>
+
+<style>
+  .text-gradient {
+    background: linear-gradient(135deg, #34d399, #22c55e, #16a34a);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .view-toggle.active {
+    @apply bg-accent-color text-gray-900;
+  }
+  
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  
+  /* Masonry grid responsive columns */
+  @media (max-width: 640px) {
+    .columns-1 { columns: 1; }
+  }
+  
+  @media (min-width: 641px) and (max-width: 1024px) {
+    .columns-1.md\:columns-2 { columns: 2; }
+  }
+  
+  @media (min-width: 1025px) and (max-width: 1280px) {
+    .columns-1.md\:columns-2.lg\:columns-3 { columns: 3; }
+  }
+  
+  @media (min-width: 1281px) {
+    .columns-1.md\:columns-2.lg\:columns-3.xl\:columns-4 { columns: 4; }
+  }
+  
+  /* Animation styles */
+  .animate-in {
+    animation: slideUp 0.6s ease-out forwards;
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  
+  .animate-delay-100 { animation-delay: 0.1s; }
+  .animate-delay-200 { animation-delay: 0.2s; }
+  .animate-delay-300 { animation-delay: 0.3s; }
+  .animate-delay-400 { animation-delay: 0.4s; }
+  .animate-delay-500 { animation-delay: 0.5s; }
+  .animate-delay-600 { animation-delay: 0.6s; }
+  
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Slideshow specific styles */
+  .slideshow-slide {
+    transition: opacity 0.5s ease-in-out;
+  }
+  
+  .slide-indicator.active {
+    @apply bg-accent-color w-8;
+  }
+  
+  .slideshow-thumb.active {
+    @apply border-accent-color;
+  }
+  
+  /* Modal styles */
+  #image-modal {
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+  
+  /* Reduced motion support */
+  @media (prefers-reduced-motion: reduce) {
+    .animate-in {
+      animation: none;
+      opacity: 1;
+      transform: none;
+    }
+    
+    * {
+      transition: none !important;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // View toggle functionality
+    const viewToggles = document.querySelectorAll('.view-toggle');
+    const masonryView = document.getElementById('masonry-view');
+    const gridView = document.getElementById('grid-view');
+    const slideshowView = document.getElementById('slideshow-view');
+    
+    viewToggles.forEach(toggle => {
+      toggle.addEventListener('click', () => {
+        const view = toggle.getAttribute('data-view');
+        
+        // Update active state
+        viewToggles.forEach(t => t.classList.remove('active'));
+        toggle.classList.add('active');
+        
+        // Show/hide views
+        [masonryView, gridView, slideshowView].forEach(v => v?.classList.add('hidden'));
+        
+        switch(view) {
+          case 'masonry':
+            masonryView?.classList.remove('hidden');
+            break;
+          case 'grid':
+            gridView?.classList.remove('hidden');
+            break;
+          case 'slideshow':
+            slideshowView?.classList.remove('hidden');
+            initSlideshow();
+            break;
+        }
+      });
+    });
+    
+    // Filter functionality
+    const locationFilter = document.getElementById('location-filter') as HTMLSelectElement;
+    const tagFilter = document.getElementById('tag-filter') as HTMLSelectElement;
+    const clearFilters = document.getElementById('clear-filters');
+    const clearFiltersNoResults = document.getElementById('clear-filters-no-results');
+    const noResults = document.getElementById('no-results');
+    
+    function filterImages() {
+      const locationValue = locationFilter?.value;
+      const tagValue = tagFilter?.value;
+      
+      const galleryItems = document.querySelectorAll('.gallery-item');
+      let visibleCount = 0;
+      
+      galleryItems.forEach(item => {
+        const location = item.getAttribute('data-location');
+        const tags = item.getAttribute('data-tags');
+        
+        const matchesLocation = !locationValue || location === locationValue;
+        const matchesTag = !tagValue || tags?.includes(tagValue);
+        
+        if (matchesLocation && matchesTag) {
+          (item as HTMLElement).style.display = '';
+          visibleCount++;
+        } else {
+          (item as HTMLElement).style.display = 'none';
+        }
+      });
+      
+      // Show/hide no results message
+      if (visibleCount === 0) {
+        noResults?.classList.remove('hidden');
+      } else {
+        noResults?.classList.add('hidden');
+      }
+    }
+    
+    locationFilter?.addEventListener('change', filterImages);
+    tagFilter?.addEventListener('change', filterImages);
+    
+    function clearAllFilters() {
+      if (locationFilter) locationFilter.value = '';
+      if (tagFilter) tagFilter.value = '';
+      filterImages();
+    }
+    
+    clearFilters?.addEventListener('click', clearAllFilters);
+    clearFiltersNoResults?.addEventListener('click', clearAllFilters);
+    
+    // Image modal functionality
+    const imageModal = document.getElementById('image-modal');
+    const modalImage = document.getElementById('modal-image') as HTMLImageElement;
+    const modalCaption = document.getElementById('modal-caption');
+    const modalLocation = document.getElementById('modal-location');
+    const modalDate = document.getElementById('modal-date');
+    const modalTags = document.getElementById('modal-tags');
+    const closeModal = document.getElementById('close-modal');
+    
+    // Add click listeners to all gallery images
+    const galleryImages = document.querySelectorAll('.gallery-item img');
+    galleryImages.forEach((img, index) => {
+      img.addEventListener('click', () => openModal(index));
+    });
+    
+    function openModal(imageIndex: number) {
+      const galleryData = {
+        0: {
+          url: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80',
+          caption: 'Hoàng hôn trên vùng đất Mũi - điểm khởi đầu của hành trình',
+          location: 'Cà Mau',
+          date: '2025-01-15',
+          tags: ['hoàng hôn', 'cà mau', 'khởi đầu']
+        }
+        // Add other images data here
+      };
+      
+      const imageData = galleryData[imageIndex as keyof typeof galleryData] || galleryData[0];
+      
+      if (modalImage) modalImage.src = imageData.url;
+      if (modalCaption) modalCaption.textContent = imageData.caption;
+      if (modalLocation) modalLocation.textContent = `📍 ${imageData.location}`;
+      if (modalDate) modalDate.textContent = new Date(imageData.date).toLocaleDateString('vi-VN');
+      
+      if (modalTags) {
+        modalTags.innerHTML = imageData.tags
+          .map(tag => `<span class="px-2 py-1 text-xs bg-accent-color/20 text-accent-color rounded-full">#${tag}</span>`)
+          .join('');
+      }
+      
+      imageModal?.classList.remove('hidden');
+      imageModal?.classList.add('flex');
+      document.body.style.overflow = 'hidden';
+    }
+    
+    function closeImageModal() {
+      imageModal?.classList.add('hidden');
+      imageModal?.classList.remove('flex');
+      document.body.style.overflow = '';
+    }
+    
+    closeModal?.addEventListener('click', closeImageModal);
+    imageModal?.addEventListener('click', (e) => {
+      if (e.target === imageModal) closeImageModal();
+    });
+    
+    // Close modal on Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeImageModal();
+    });
+    
+    // Slideshow functionality
+    let currentSlide = 0;
+    const totalSlides = 6; // Number of images
+    
+    function initSlideshow() {
+      const prevBtn = document.getElementById('prev-slide');
+      const nextBtn = document.getElementById('next-slide');
+      const indicators = document.querySelectorAll('.slide-indicator');
+      const thumbnails = document.querySelectorAll('.slideshow-thumb');
+      
+      function showSlide(index: number) {
+        const slides = document.querySelectorAll('.slideshow-slide');
+        
+        slides.forEach((slide, i) => {
+          if (i === index) {
+            slide.classList.remove('opacity-0');
+            slide.classList.add('opacity-100');
+          } else {
+            slide.classList.remove('opacity-100');
+            slide.classList.add('opacity-0');
+          }
+        });
+        
+        // Update indicators
+        indicators.forEach((indicator, i) => {
+          if (i === index) {
+            indicator.classList.add('bg-accent-color', 'w-8');
+            indicator.classList.remove('bg-white/30');
+          } else {
+            indicator.classList.remove('bg-accent-color', 'w-8');
+            indicator.classList.add('bg-white/30');
+          }
+        });
+        
+        // Update thumbnails
+        thumbnails.forEach((thumb, i) => {
+          if (i === index) {
+            thumb.classList.add('border-accent-color');
+            thumb.classList.remove('border-transparent');
+          } else {
+            thumb.classList.remove('border-accent-color');
+            thumb.classList.add('border-transparent');
+          }
+        });
+        
+        currentSlide = index;
+      }
+      
+      prevBtn?.addEventListener('click', () => {
+        const newIndex = currentSlide === 0 ? totalSlides - 1 : currentSlide - 1;
+        showSlide(newIndex);
+      });
+      
+      nextBtn?.addEventListener('click', () => {
+        const newIndex = currentSlide === totalSlides - 1 ? 0 : currentSlide + 1;
+        showSlide(newIndex);
+      });
+      
+      indicators.forEach((indicator, index) => {
+        indicator.addEventListener('click', () => showSlide(index));
+      });
+      
+      thumbnails.forEach((thumb, index) => {
+        thumb.addEventListener('click', () => showSlide(index));
+      });
+      
+      // Auto-advance slideshow
+      setInterval(() => {
+        const newIndex = currentSlide === totalSlides - 1 ? 0 : currentSlide + 1;
+        showSlide(newIndex);
+      }, 5000);
+    }
+    
+    // Intersection Observer for animations
+    const animatedElements = document.querySelectorAll('.animate-in');
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, {
+      threshold: 0.1,
+      rootMargin: '50px 0px'
+    });
+    
+    animatedElements.forEach((element) => {
+      observer.observe(element);
+    });
+  });
+</script>

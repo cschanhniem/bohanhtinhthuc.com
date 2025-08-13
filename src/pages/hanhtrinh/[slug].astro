@@ -1,0 +1,42 @@
+---
+// Temporarily disabled for build issues
+// Will be re-enabled after resolving content collection problems
+
+// import { getCollection, type CollectionEntry } from 'astro:content';
+// import PostLayout from '../../layouts/PostLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+  // Temporarily return empty array to skip dynamic routes
+  return [];
+  
+  // Original code:
+  // const posts = await getCollection('hanhtrinh');
+  // return posts.map((post) => ({
+  //   params: { slug: post.slug },
+  //   props: { post },
+  // }));
+}
+---
+
+<BaseLayout title="Bài viết - Bộ Hành Tỉnh Thức">
+  <Header slot="header" />
+  
+  <div class="min-h-screen py-16 flex items-center justify-center">
+    <div class="text-center">
+      <h1 class="text-3xl font-bold text-text-primary mb-4">
+        Trang đang được phát triển
+      </h1>
+      <p class="text-text-secondary mb-8">
+        Dynamic routing đang được sửa chữa. Vui lòng quay lại sau.
+      </p>
+      <a href="/hanhtrinh" class="text-accent-color hover:underline">
+        Quay về danh sách hành trình
+      </a>
+    </div>
+  </div>
+  
+  <Footer slot="footer" />
+</BaseLayout>

@@ -1,0 +1,291 @@
+---
+export interface Props {
+  variant?: 'primary' | 'secondary' | 'glass' | 'outline' | 'ghost' | 'danger';
+  size?: 'sm' | 'md' | 'lg' | 'xl';
+  href?: string;
+  target?: '_blank' | '_self';
+  type?: 'button' | 'submit' | 'reset';
+  disabled?: boolean;
+  loading?: boolean;
+  icon?: string;
+  iconPosition?: 'left' | 'right';
+  fullWidth?: boolean;
+  class?: string;
+  ariaLabel?: string;
+  id?: string;
+}
+
+const {
+  variant = 'primary',
+  size = 'md',
+  href,
+  target = '_self',
+  type = 'button',
+  disabled = false,
+  loading = false,
+  icon,
+  iconPosition = 'left',
+  fullWidth = false,
+  class: className = '',
+  ariaLabel,
+  id,
+  ...props
+} = Astro.props;
+
+// Base classes
+const baseClasses = [
+  'inline-flex items-center justify-center',
+  'font-medium',
+  'transition-all duration-300',
+  'focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900',
+  'disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none',
+  'relative overflow-hidden',
+];
+
+// Variant classes
+const variantClasses = {
+  primary: [
+    'bg-accent-color text-gray-900',
+    'hover:bg-primary-400 hover:shadow-lg hover:shadow-accent-color/25',
+    'focus:ring-accent-color',
+    'active:bg-primary-600',
+  ],
+  secondary: [
+    'bg-gray-700 text-text-primary',
+    'hover:bg-gray-600 hover:shadow-lg',
+    'focus:ring-gray-500',
+    'active:bg-gray-800',
+  ],
+  glass: [
+    'glass-card text-text-primary',
+    'hover:bg-white/20 hover:scale-105',
+    'focus:ring-accent-color',
+    'active:scale-95',
+  ],
+  outline: [
+    'border-2 border-accent-color text-accent-color bg-transparent',
+    'hover:bg-accent-color hover:text-gray-900 hover:shadow-lg hover:shadow-accent-color/25',
+    'focus:ring-accent-color',
+    'active:bg-primary-600',
+  ],
+  ghost: [
+    'text-text-primary bg-transparent',
+    'hover:bg-white/10 hover:text-accent-color',
+    'focus:ring-accent-color',
+    'active:bg-white/20',
+  ],
+  danger: [
+    'bg-red-600 text-white',
+    'hover:bg-red-700 hover:shadow-lg hover:shadow-red-600/25',
+    'focus:ring-red-500',
+    'active:bg-red-800',
+  ],
+};
+
+// Size classes
+const sizeClasses = {
+  sm: ['text-sm px-3 py-2 rounded-md'],
+  md: ['text-base px-4 py-2.5 rounded-lg'],
+  lg: ['text-lg px-6 py-3 rounded-lg'],
+  xl: ['text-xl px-8 py-4 rounded-xl'],
+};
+
+// Icon size mapping
+const iconSizes = {
+  sm: 'w-4 h-4',
+  md: 'w-5 h-5',
+  lg: 'w-6 h-6',
+  xl: 'w-7 h-7',
+};
+
+// Full width class
+const fullWidthClass = fullWidth ? 'w-full' : '';
+
+// Combine all classes
+const buttonClasses = [
+  ...baseClasses,
+  ...variantClasses[variant],
+  ...sizeClasses[size],
+  fullWidthClass,
+  className,
+].filter(Boolean).join(' ');
+
+// Component props
+const componentProps = {
+  class: buttonClasses,
+  disabled: disabled || loading,
+  'aria-label': ariaLabel,
+  id,
+  ...props,
+};
+
+// Choose component type
+const Component = href ? 'a' : 'button';
+const linkProps = href ? { 
+  href, 
+  target, 
+  rel: target === '_blank' ? 'noopener noreferrer' : undefined 
+} : { type };
+
+// Icon paths for simple icon system
+const iconPaths: Record<string, string> = {
+  arrow: 'M5 12h14M12 5l7 7-7 7',
+  external: 'M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3',
+  download: 'M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3',
+  plus: 'M12 5v14M5 12h14',
+  heart: 'M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z',
+  share: 'M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8M16 6l-4-4-4 4M12 2v13',
+};
+---
+
+<Component {...componentProps} {...linkProps}>
+  {/* Loading state */}
+  {loading && (
+    <span class="absolute inset-0 flex items-center justify-center">
+      <svg class={`animate-spin ${iconSizes[size]}`} fill="none" viewBox="0 0 24 24" aria-hidden="true">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+      </svg>
+    </span>
+  )}
+  
+  {/* Content wrapper */}
+  <span class={`flex items-center ${loading ? 'opacity-0' : 'opacity-100'}`}>
+    {/* Left icon */}
+    {icon && iconPosition === 'left' && (
+      <svg class={`${iconSizes[size]} mr-2`} fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d={iconPaths[icon] || iconPaths.arrow}></path>
+      </svg>
+    )}
+    
+    {/* Button text */}
+    <slot />
+    
+    {/* Right icon */}
+    {icon && iconPosition === 'right' && (
+      <svg class={`${iconSizes[size]} ml-2`} fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d={iconPaths[icon] || iconPaths.arrow}></path>
+      </svg>
+    )}
+  </span>
+  
+  {/* Ripple effect */}
+  <span class="absolute inset-0 overflow-hidden rounded-inherit">
+    <span class="ripple absolute inset-0 transform scale-0 rounded-full bg-white/20 transition-transform duration-300"></span>
+  </span>
+</Component>
+
+<style>
+  /* Ripple effect animation */
+  .ripple {
+    pointer-events: none;
+  }
+  
+  /* Button hover effects */
+  button:not(:disabled):active .ripple,
+  a:active .ripple {
+    transform: scale-4;
+    transition: transform 0.3s ease-out;
+  }
+  
+  /* Glass button specific styles */
+  .glass-card {
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  }
+  
+  /* Enhanced focus styles for accessibility */
+  button:focus-visible,
+  a:focus-visible {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+  
+  /* Disabled state */
+  button:disabled {
+    transform: none !important;
+    box-shadow: none !important;
+  }
+  
+  /* Loading state animation */
+  .loading-button {
+    pointer-events: none;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 640px) {
+    .responsive-full {
+      width: 100%;
+    }
+  }
+  
+  /* High contrast mode support */
+  @media (prefers-contrast: high) {
+    button {
+      border-width: 2px;
+    }
+  }
+  
+  /* Reduced motion support */
+  @media (prefers-reduced-motion: reduce) {
+    button,
+    a {
+      transition: none;
+    }
+    
+    .ripple {
+      display: none;
+    }
+    
+    button:focus-visible,
+    a:focus-visible {
+      transform: none;
+    }
+  }
+</style>
+
+<script>
+  // Add ripple effect to buttons
+  document.addEventListener('DOMContentLoaded', () => {
+    const buttons = document.querySelectorAll('button, a[role="button"]');
+    
+    buttons.forEach(button => {
+      button.addEventListener('click', function(e) {
+        const ripple = this.querySelector('.ripple');
+        if (ripple && !this.disabled) {
+          ripple.style.transform = 'scale(0)';
+          // Force reflow
+          ripple.offsetHeight;
+          ripple.style.transform = 'scale(4)';
+          
+          setTimeout(() => {
+            ripple.style.transform = 'scale(0)';
+          }, 300);
+        }
+      });
+    });
+  });
+  
+  // Handle loading state
+  window.setButtonLoading = (buttonId: string, loading: boolean) => {
+    const button = document.getElementById(buttonId) as HTMLButtonElement;
+    if (button) {
+      button.disabled = loading;
+      const content = button.querySelector('span:not(.ripple)');
+      const loadingSpinner = button.querySelector('.loading-spinner');
+      
+      if (content && loadingSpinner) {
+        if (loading) {
+          content.style.opacity = '0';
+          loadingSpinner.style.opacity = '1';
+        } else {
+          content.style.opacity = '1';
+          loadingSpinner.style.opacity = '0';
+        }
+      }
+    }
+  };
+</script>

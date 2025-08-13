@@ -1,0 +1,239 @@
+---
+const currentYear = new Date().getFullYear();
+
+const socialLinks = [
+  {
+    name: 'Facebook',
+    href: '#',
+    icon: 'M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z'
+  },
+  {
+    name: 'Instagram',
+    href: '#',
+    icon: 'M12.017 0C5.396 0 .029 5.367.029 11.987c0 6.62 5.367 11.987 11.988 11.987 6.62 0 11.987-5.367 11.987-11.987C24.014 5.367 18.637.001 12.017.001zM12 16.624c-2.563 0-4.624-2.061-4.624-4.624S9.437 7.376 12 7.376s4.624 2.061 4.624 4.624S14.563 16.624 12 16.624zM16.848 6.848c-.599 0-1.088-.489-1.088-1.088s.489-1.088 1.088-1.088 1.088.489 1.088 1.088-.489 1.088-1.088 1.088z'
+  },
+  {
+    name: 'YouTube',
+    href: '#',
+    icon: 'M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z'
+  },
+  {
+    name: 'Email',
+    href: 'mailto:contact@bohanhtinhthuc.com',
+    icon: 'M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z'
+  }
+];
+
+const quickLinks = [
+  { name: 'Trang chủ', href: '/' },
+  { name: 'Giới thiệu', href: '/gioithieu' },
+  { name: 'Hành trình', href: '/hanhtrinh' },
+  { name: 'Thực hành', href: '/thuchanh' },
+];
+
+const resources = [
+  { name: 'Thư viện ảnh', href: '/thuvien' },
+  { name: 'Liên hệ', href: '/lienhe' },
+  { name: 'RSS Feed', href: '/rss.xml' },
+  { name: 'Sitemap', href: '/sitemap-index.xml' },
+];
+---
+
+<footer class="relative mt-20" role="contentinfo">
+  <!-- Decorative gradient overlay -->
+  <div class="absolute inset-0 bg-gradient-to-t from-gray-900/90 via-gray-900/50 to-transparent"></div>
+  
+  <div class="relative glass-card rounded-none border-x-0 border-b-0">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
+        
+        <!-- Brand Section -->
+        <div class="lg:col-span-2">
+          <div class="flex items-center space-x-3 mb-6">
+            <div class="w-12 h-12 glass-card rounded-full flex items-center justify-center">
+              <svg class="w-7 h-7 text-accent-color" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+              </svg>
+            </div>
+            <div>
+              <h3 class="text-xl font-bold text-text-primary">Bộ Hành Tỉnh Thức</h3>
+              <p class="text-sm text-text-secondary">Hành trình sống chậm</p>
+            </div>
+          </div>
+          
+          <p class="text-text-secondary mb-6 leading-relaxed max-w-md">
+            Ghi lại hành trình bộ hành xuyên Việt Nam với tốc độ chậm, thực hành ăn một bữa mỗi ngày, 
+            và tìm về sự tỉnh thức trong từng khoảnh khắc sống.
+          </p>
+          
+          <blockquote class="border-l-4 border-accent-color pl-4 py-2 mb-6">
+            <p class="text-text-primary font-medium italic">
+              "Đi không ngừng nghỉ, sống trọn từng khoảnh khắc"
+            </p>
+            <cite class="text-text-secondary text-sm">Người Bộ Hành</cite>
+          </blockquote>
+          
+          <!-- Social Links -->
+          <div class="flex space-x-4">
+            {socialLinks.map((social) => (
+              <a
+                href={social.href}
+                class="w-10 h-10 glass-card rounded-full flex items-center justify-center text-text-secondary hover:text-accent-color hover:bg-white/20 transition-all duration-300 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-accent-color focus:ring-offset-2 focus:ring-offset-gray-900"
+                aria-label={`Theo dõi trên ${social.name}`}
+                {...(social.name === 'Email' ? {} : { target: "_blank", rel: "noopener noreferrer" })}
+              >
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d={social.icon} />
+                </svg>
+              </a>
+            ))}
+          </div>
+        </div>
+        
+        <!-- Quick Links -->
+        <div>
+          <h4 class="text-lg font-semibold text-text-primary mb-6">Điều hướng</h4>
+          <ul class="space-y-3">
+            {quickLinks.map((link) => (
+              <li>
+                <a
+                  href={link.href}
+                  class="text-text-secondary hover:text-accent-color transition-colors duration-300 flex items-center group"
+                >
+                  <svg class="w-4 h-4 mr-2 text-accent-color/60 group-hover:text-accent-color transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                  </svg>
+                  {link.name}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+        
+        <!-- Resources -->
+        <div>
+          <h4 class="text-lg font-semibold text-text-primary mb-6">Tài nguyên</h4>
+          <ul class="space-y-3">
+            {resources.map((resource) => (
+              <li>
+                <a
+                  href={resource.href}
+                  class="text-text-secondary hover:text-accent-color transition-colors duration-300 flex items-center group"
+                  {...(resource.href.startsWith('http') ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                >
+                  <svg class="w-4 h-4 mr-2 text-accent-color/60 group-hover:text-accent-color transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                  </svg>
+                  {resource.name}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+      
+      <!-- Newsletter Signup -->
+      <div class="mt-12 pt-8 border-t border-white/10">
+        <div class="max-w-md mx-auto lg:mx-0">
+          <h4 class="text-lg font-semibold text-text-primary mb-4">Nhận thông báo hành trình mới</h4>
+          <form class="flex flex-col sm:flex-row gap-3" aria-label="Đăng ký nhận thông báo">
+            <label for="email-newsletter" class="sr-only">Địa chỉ email</label>
+            <input
+              type="email"
+              id="email-newsletter"
+              name="email"
+              placeholder="email@example.com"
+              required
+              class="flex-1 px-4 py-3 glass-card text-text-primary placeholder-text-secondary border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-color focus:border-accent-color transition-all duration-300"
+            />
+            <button
+              type="submit"
+              class="btn-glass btn-primary px-6 py-3 rounded-lg font-medium whitespace-nowrap focus:outline-none focus:ring-2 focus:ring-accent-color focus:ring-offset-2 focus:ring-offset-gray-900"
+            >
+              Đăng ký
+            </button>
+          </form>
+          <p class="text-xs text-text-secondary mt-2">
+            Chúng tôi tôn trọng quyền riêng tư của bạn. Bạn có thể hủy đăng ký bất kỳ lúc nào.
+          </p>
+        </div>
+      </div>
+      
+      <!-- Bottom Section -->
+      <div class="mt-12 pt-8 border-t border-white/10">
+        <div class="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+          <div class="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-6 text-sm text-text-secondary">
+            <p>© {currentYear} Bộ Hành Tỉnh Thức. Tất cả quyền được bảo lưu.</p>
+            <div class="flex space-x-4">
+              <a href="/privacy" class="hover:text-accent-color transition-colors">Chính sách bảo mật</a>
+              <a href="/terms" class="hover:text-accent-color transition-colors">Điều khoản sử dụng</a>
+            </div>
+          </div>
+          
+          <div class="flex items-center space-x-2 text-sm text-text-secondary">
+            <span>Được xây dựng với</span>
+            <svg class="w-4 h-4 text-red-400 animate-pulse" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+            </svg>
+            <span>và</span>
+            <a href="https://astro.build" target="_blank" rel="noopener noreferrer" class="text-accent-color hover:text-primary-400 font-medium">
+              Astro
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Newsletter form handling
+  document.addEventListener('DOMContentLoaded', () => {
+    const newsletterForm = document.querySelector('form[aria-label="Đăng ký nhận thông báo"]');
+    const emailInput = document.getElementById('email-newsletter') as HTMLInputElement;
+    
+    if (newsletterForm && emailInput) {
+      newsletterForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const email = emailInput.value;
+        const submitButton = newsletterForm.querySelector('button[type="submit"]') as HTMLButtonElement;
+        const originalText = submitButton.textContent;
+        
+        // Basic email validation
+        if (!email || !email.includes('@')) {
+          alert('Vui lòng nhập địa chỉ email hợp lệ.');
+          return;
+        }
+        
+        // Show loading state
+        submitButton.textContent = 'Đang xử lý...';
+        submitButton.disabled = true;
+        
+        try {
+          // Here you would typically send the email to your newsletter service
+          // For now, we'll simulate a successful submission
+          await new Promise(resolve => setTimeout(resolve, 1000));
+          
+          // Success feedback
+          submitButton.textContent = 'Đã đăng ký!';
+          submitButton.classList.add('bg-green-500');
+          emailInput.value = '';
+          
+          // Reset button after 3 seconds
+          setTimeout(() => {
+            submitButton.textContent = originalText;
+            submitButton.disabled = false;
+            submitButton.classList.remove('bg-green-500');
+          }, 3000);
+          
+        } catch (error) {
+          // Error feedback
+          submitButton.textContent = 'Thử lại';
+          submitButton.disabled = false;
+          alert('Có lỗi xảy ra. Vui lòng thử lại sau.');
+        }
+      });
+    }
+  });
+</script>

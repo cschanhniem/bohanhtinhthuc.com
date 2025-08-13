@@ -1,0 +1,608 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import GlassCard from '../../components/GlassCard.astro';
+import PostCard from '../../components/PostCard.astro';
+import Button from '../../components/Button.astro';
+
+// Temporarily disabled for build issues
+// const allPosts = await getCollection('hanhtrinh');
+const allPosts: any[] = [];
+
+// Filter published posts and sort by date
+const publishedPosts = allPosts
+  .filter(post => !post.data?.draft)
+  .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+
+// Get featured posts
+const featuredPosts = publishedPosts.filter(post => post.data?.featured);
+const regularPosts = publishedPosts.filter(post => !post.data?.featured);
+
+// Get all unique tags
+const allTags = [...new Set(publishedPosts.flatMap(post => post.data.tags))];
+
+// Get all unique locations (provinces)
+const allProvinces = [...new Set(publishedPosts
+  .filter(post => post.data.location?.province)
+  .map(post => post.data.location!.province))];
+
+// Calculate journey statistics
+const totalDistance = publishedPosts.reduce((sum, post) => sum + (post.data.distance || 0), 0);
+const totalDays = publishedPosts.length;
+const averageDistance = totalDays > 0 ? (totalDistance / totalDays).toFixed(1) : 0;
+
+// Group posts by year for archive view
+const postsByYear = publishedPosts.reduce((groups, post) => {
+  const year = post.data.pubDate.getFullYear();
+  if (!groups[year]) groups[year] = [];
+  groups[year].push(post);
+  return groups;
+}, {} as Record<number, typeof publishedPosts>);
+
+const years = Object.keys(postsByYear).map(Number).sort((a, b) => b - a);
+---
+
+<BaseLayout 
+  title="Hành trình bộ hành"
+  description="Theo dõi hành trình bộ hành xuyên Việt Nam với tốc độ chậm. Những chia sẻ chân thực về con đường, con người và những bài học từ cuộc sống."
+>
+  <Header slot="header" />
+
+  <!-- Hero Section -->
+  <section class="relative py-24 lg:py-32 overflow-hidden">
+    <div class="absolute inset-0 z-0">
+      <div 
+        class="absolute inset-0 bg-cover bg-center"
+        style="background-image: url('https://images.unsplash.com/photo-1544966503-7cc5ac882d5d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80')"
+      ></div>
+      <div class="absolute inset-0 bg-gradient-to-b from-gray-900/70 via-gray-900/50 to-gray-900/70"></div>
+    </div>
+
+    <div class="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-text-primary mb-8 leading-tight">
+          <span class="text-gradient">Hành trình</span> bộ hành
+        </h1>
+        
+        <p class="text-xl md:text-2xl text-text-secondary max-w-4xl mx-auto leading-relaxed">
+          Những câu chuyện chân thực từ con đường xuyên Việt với tốc độ chậm, 
+          mỗi bước chân là một trải nghiệm, mỗi ngày là một bài học.
+        </p>
+      </div>
+
+      <!-- Journey Statistics -->
+      <GlassCard class="max-w-4xl mx-auto">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+          <div>
+            <div class="text-3xl md:text-4xl font-bold text-accent-color mb-2">{totalDays}</div>
+            <div class="text-sm text-text-secondary">Ngày đã đi</div>
+          </div>
+          <div>
+            <div class="text-3xl md:text-4xl font-bold text-accent-color mb-2">{totalDistance}km</div>
+            <div class="text-sm text-text-secondary">Tổng quãng đường</div>
+          </div>
+          <div>
+            <div class="text-3xl md:text-4xl font-bold text-accent-color mb-2">{averageDistance}km</div>
+            <div class="text-sm text-text-secondary">Trung bình/ngày</div>
+          </div>
+          <div>
+            <div class="text-3xl md:text-4xl font-bold text-accent-color mb-2">{allProvinces.length}</div>
+            <div class="text-sm text-text-secondary">Tỉnh thành</div>
+          </div>
+        </div>
+      </GlassCard>
+    </div>
+  </section>
+
+  <!-- Filter Section -->
+  <section class="py-8 border-b border-white/10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between space-y-4 lg:space-y-0">
+        
+        <!-- View Options -->
+        <div class="flex items-center space-x-4">
+          <span class="text-text-secondary text-sm font-medium">Xem theo:</span>
+          <div class="flex items-center space-x-2">
+            <Button
+              variant="glass"
+              size="sm"
+              class="view-toggle active"
+              data-view="grid"
+            >
+              Lưới
+            </Button>
+            <Button
+              variant="glass"
+              size="sm"
+              class="view-toggle"
+              data-view="list"
+            >
+              Danh sách
+            </Button>
+            <Button
+              variant="glass"
+              size="sm"
+              class="view-toggle"
+              data-view="timeline"
+            >
+              Thời gian
+            </Button>
+          </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="flex flex-wrap items-center gap-4">
+          <!-- Year Filter -->
+          <select 
+            class="glass-card px-3 py-2 text-text-primary text-sm rounded-lg border-white/20 focus:outline-none focus:ring-2 focus:ring-accent-color"
+            id="year-filter"
+          >
+            <option value="">Tất cả năm</option>
+            {years.map(year => (
+              <option value={year}>{year}</option>
+            ))}
+          </select>
+
+          <!-- Province Filter -->
+          <select 
+            class="glass-card px-3 py-2 text-text-primary text-sm rounded-lg border-white/20 focus:outline-none focus:ring-2 focus:ring-accent-color"
+            id="province-filter"
+          >
+            <option value="">Tất cả tỉnh</option>
+            {allProvinces.sort().map(province => (
+              <option value={province}>{province}</option>
+            ))}
+          </select>
+
+          <!-- Search -->
+          <input
+            type="text"
+            placeholder="Tìm kiếm..."
+            class="glass-card px-3 py-2 text-text-primary placeholder-text-secondary text-sm rounded-lg border-white/20 focus:outline-none focus:ring-2 focus:ring-accent-color w-48"
+            id="search-input"
+          />
+
+          <!-- Clear Filters -->
+          <Button
+            variant="ghost"
+            size="sm"
+            id="clear-filters"
+            class="text-accent-color hover:text-primary-400"
+          >
+            Xóa bộ lọc
+          </Button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Posts -->
+  {featuredPosts.length > 0 && (
+    <section class="py-16 lg:py-24">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+          <h2 class="text-3xl md:text-4xl font-bold text-text-primary mb-4">
+            Những khoảnh khắc nổi bật
+          </h2>
+          <p class="text-lg text-text-secondary max-w-2xl mx-auto">
+            Những trải nghiệm đặc biệt và ý nghĩa nhất từ hành trình
+          </p>
+        </div>
+        
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {featuredPosts.slice(0, 2).map((post, index) => (
+            <div class={`animate-in animate-delay-${(index + 1) * 100}`}>
+              <PostCard
+                title={post.data.title}
+                description={post.data.description}
+                pubDate={post.data.pubDate}
+                author={post.data.author}
+                image={post.data.image}
+                tags={post.data.tags}
+                href={`/hanhtrinh/${post.slug}`}
+                readingTime={post.data.readingTime ? `${post.data.readingTime} phút đọc` : undefined}
+                featured={true}
+                variant="featured"
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- All Posts Section -->
+  <section class="py-16 lg:py-24 bg-gradient-to-b from-transparent to-gray-900/30">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Posts Grid View -->
+      <div id="posts-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {regularPosts.map((post, index) => (
+          <div 
+            class={`post-item animate-in animate-delay-${((index % 6) + 1) * 100}`}
+            data-year={post.data.pubDate.getFullYear()}
+            data-province={post.data.location?.province || ''}
+            data-tags={post.data.tags.join(',')}
+            data-title={post.data.title.toLowerCase()}
+            data-description={post.data.description.toLowerCase()}
+          >
+            <PostCard
+              title={post.data.title}
+              description={post.data.description}
+              pubDate={post.data.pubDate}
+              author={post.data.author}
+              image={post.data.image}
+              tags={post.data.tags}
+              href={`/hanhtrinh/${post.slug}`}
+              readingTime={post.data.readingTime ? `${post.data.readingTime} phút đọc` : undefined}
+              variant="default"
+            />
+          </div>
+        ))}
+      </div>
+
+      <!-- Posts List View (Hidden by default) -->
+      <div id="posts-list" class="hidden space-y-6">
+        {regularPosts.map((post) => (
+          <div 
+            class="post-item"
+            data-year={post.data.pubDate.getFullYear()}
+            data-province={post.data.location?.province || ''}
+            data-tags={post.data.tags.join(',')}
+            data-title={post.data.title.toLowerCase()}
+            data-description={post.data.description.toLowerCase()}
+          >
+            <GlassCard padding="lg" class="flex flex-col md:flex-row items-start space-y-4 md:space-y-0 md:space-x-6">
+              <!-- Image -->
+              {post.data.image && (
+                <div class="w-full md:w-48 h-48 md:h-32 flex-shrink-0">
+                  <img
+                    src={post.data.image.url}
+                    alt={post.data.image.alt}
+                    class="w-full h-full object-cover rounded-lg"
+                    loading="lazy"
+                  />
+                </div>
+              )}
+              
+              <!-- Content -->
+              <div class="flex-1">
+                <div class="flex flex-wrap gap-2 mb-3">
+                  {post.data.tags.slice(0, 3).map((tag) => (
+                    <span class="px-2 py-1 text-xs font-medium text-accent-color bg-accent-color/10 rounded-md border border-accent-color/20">
+                      #{tag}
+                    </span>
+                  ))}
+                </div>
+                
+                <h3 class="text-xl font-bold text-text-primary mb-2 hover:text-accent-color transition-colors">
+                  <a href={`/hanhtrinh/${post.slug}`}>{post.data.title}</a>
+                </h3>
+                
+                <p class="text-text-secondary mb-4 line-clamp-2">
+                  {post.data.description}
+                </p>
+                
+                <div class="flex items-center justify-between text-sm text-text-secondary">
+                  <div class="flex items-center space-x-4">
+                    <span>{post.data.pubDate.toLocaleDateString('vi-VN')}</span>
+                    {post.data.location?.province && (
+                      <span>📍 {post.data.location.province}</span>
+                    )}
+                    {post.data.distance && (
+                      <span>🚶 {post.data.distance}km</span>
+                    )}
+                  </div>
+                  
+                  {post.data.readingTime && (
+                    <span>{post.data.readingTime} phút đọc</span>
+                  )}
+                </div>
+              </div>
+            </GlassCard>
+          </div>
+        ))}
+      </div>
+
+      <!-- Timeline View (Hidden by default) -->
+      <div id="posts-timeline" class="hidden">
+        {years.map(year => (
+          <div class="timeline-year mb-12">
+            <h3 class="text-2xl font-bold text-text-primary mb-6 text-center">
+              {year}
+            </h3>
+            <div class="relative">
+              <!-- Timeline line -->
+              <div class="absolute left-1/2 transform -translate-x-1/2 w-0.5 h-full bg-accent-color/30"></div>
+              
+              <div class="space-y-8">
+                {postsByYear[year].map((post, index) => (
+                  <div 
+                    class={`post-item relative flex items-center ${index % 2 === 0 ? 'justify-start' : 'justify-end'}`}
+                    data-year={post.data.pubDate.getFullYear()}
+                    data-province={post.data.location?.province || ''}
+                    data-tags={post.data.tags.join(',')}
+                    data-title={post.data.title.toLowerCase()}
+                    data-description={post.data.description.toLowerCase()}
+                  >
+                    <!-- Timeline dot -->
+                    <div class="absolute left-1/2 transform -translate-x-1/2 w-4 h-4 bg-accent-color rounded-full border-4 border-gray-900 z-10"></div>
+                    
+                    <!-- Content -->
+                    <div class={`w-5/12 ${index % 2 === 0 ? 'pr-8' : 'pl-8'}`}>
+                      <PostCard
+                        title={post.data.title}
+                        description={post.data.description}
+                        pubDate={post.data.pubDate}
+                        author={post.data.author}
+                        image={post.data.image}
+                        tags={post.data.tags}
+                        href={`/hanhtrinh/${post.slug}`}
+                        readingTime={post.data.readingTime ? `${post.data.readingTime} phút đọc` : undefined}
+                        variant="compact"
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <!-- No Results Message -->
+      <div id="no-results" class="hidden text-center py-16">
+        <div class="w-24 h-24 bg-accent-color/20 rounded-full flex items-center justify-center mx-auto mb-6">
+          <svg class="w-12 h-12 text-accent-color/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+        </div>
+        <h3 class="text-xl font-semibold text-text-primary mb-4">
+          Không tìm thấy bài viết nào
+        </h3>
+        <p class="text-text-secondary mb-6">
+          Thử thay đổi bộ lọc hoặc từ khóa tìm kiếm
+        </p>
+        <Button
+          variant="outline"
+          id="clear-filters-no-results"
+        >
+          Xóa tất cả bộ lọc
+        </Button>
+      </div>
+
+      <!-- Load More Button -->
+      <div class="text-center mt-12" id="load-more-container">
+        <Button
+          variant="outline"
+          size="lg"
+          id="load-more-btn"
+          class="hidden"
+        >
+          Xem thêm bài viết
+        </Button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tags Section -->
+  <section class="py-16 lg:py-24">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <h2 class="text-2xl md:text-3xl font-bold text-text-primary mb-4">
+          Khám phá theo chủ đề
+        </h2>
+        <p class="text-lg text-text-secondary">
+          Tìm hiểu những câu chuyện theo từng chủ đề quan tâm
+        </p>
+      </div>
+      
+      <GlassCard padding="lg">
+        <div class="flex flex-wrap gap-3 justify-center">
+          {allTags.sort().map((tag) => (
+            <button
+              class="tag-filter px-4 py-2 glass-card text-text-secondary hover:text-accent-color hover:bg-accent-color/10 transition-all duration-300 rounded-full border border-white/20 hover:border-accent-color/30"
+              data-tag={tag}
+            >
+              #{tag}
+            </button>
+          ))}
+        </div>
+      </GlassCard>
+    </div>
+  </section>
+
+  <Footer slot="footer" />
+</BaseLayout>
+
+<style>
+  .text-gradient {
+    background: linear-gradient(135deg, #34d399, #22c55e, #16a34a);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .view-toggle.active {
+    @apply bg-accent-color text-gray-900;
+  }
+  
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  
+  /* Timeline styles */
+  .timeline-year:last-child .absolute {
+    height: calc(100% - 2rem);
+  }
+  
+  /* Animation styles */
+  .animate-in {
+    animation: slideUp 0.6s ease-out forwards;
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  
+  .animate-delay-100 { animation-delay: 0.1s; }
+  .animate-delay-200 { animation-delay: 0.2s; }
+  .animate-delay-300 { animation-delay: 0.3s; }
+  .animate-delay-400 { animation-delay: 0.4s; }
+  .animate-delay-500 { animation-delay: 0.5s; }
+  .animate-delay-600 { animation-delay: 0.6s; }
+  
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Reduced motion support */
+  @media (prefers-reduced-motion: reduce) {
+    .animate-in {
+      animation: none;
+      opacity: 1;
+      transform: none;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // View toggle functionality
+    const viewToggles = document.querySelectorAll('.view-toggle');
+    const postsGrid = document.getElementById('posts-grid');
+    const postsList = document.getElementById('posts-list');
+    const postsTimeline = document.getElementById('posts-timeline');
+    
+    viewToggles.forEach(toggle => {
+      toggle.addEventListener('click', () => {
+        const view = toggle.getAttribute('data-view');
+        
+        // Update active state
+        viewToggles.forEach(t => t.classList.remove('active'));
+        toggle.classList.add('active');
+        
+        // Show/hide views
+        [postsGrid, postsList, postsTimeline].forEach(view => view?.classList.add('hidden'));
+        
+        switch(view) {
+          case 'grid':
+            postsGrid?.classList.remove('hidden');
+            break;
+          case 'list':
+            postsList?.classList.remove('hidden');
+            break;
+          case 'timeline':
+            postsTimeline?.classList.remove('hidden');
+            break;
+        }
+      });
+    });
+    
+    // Filter functionality
+    const yearFilter = document.getElementById('year-filter') as HTMLSelectElement;
+    const provinceFilter = document.getElementById('province-filter') as HTMLSelectElement;
+    const searchInput = document.getElementById('search-input') as HTMLInputElement;
+    const clearFilters = document.getElementById('clear-filters');
+    const clearFiltersNoResults = document.getElementById('clear-filters-no-results');
+    const noResults = document.getElementById('no-results');
+    
+    function filterPosts() {
+      const yearValue = yearFilter?.value;
+      const provinceValue = provinceFilter?.value;
+      const searchValue = searchInput?.value.toLowerCase();
+      
+      const postItems = document.querySelectorAll('.post-item');
+      let visibleCount = 0;
+      
+      postItems.forEach(item => {
+        const year = item.getAttribute('data-year');
+        const province = item.getAttribute('data-province');
+        const tags = item.getAttribute('data-tags');
+        const title = item.getAttribute('data-title');
+        const description = item.getAttribute('data-description');
+        
+        const matchesYear = !yearValue || year === yearValue;
+        const matchesProvince = !provinceValue || province === provinceValue;
+        const matchesSearch = !searchValue || 
+          title?.includes(searchValue) || 
+          description?.includes(searchValue) ||
+          tags?.includes(searchValue);
+        
+        if (matchesYear && matchesProvince && matchesSearch) {
+          (item as HTMLElement).style.display = '';
+          visibleCount++;
+        } else {
+          (item as HTMLElement).style.display = 'none';
+        }
+      });
+      
+      // Show/hide no results message
+      if (visibleCount === 0) {
+        noResults?.classList.remove('hidden');
+      } else {
+        noResults?.classList.add('hidden');
+      }
+    }
+    
+    // Add event listeners for filters
+    yearFilter?.addEventListener('change', filterPosts);
+    provinceFilter?.addEventListener('change', filterPosts);
+    searchInput?.addEventListener('input', filterPosts);
+    
+    // Clear filters
+    function clearAllFilters() {
+      if (yearFilter) yearFilter.value = '';
+      if (provinceFilter) provinceFilter.value = '';
+      if (searchInput) searchInput.value = '';
+      filterPosts();
+    }
+    
+    clearFilters?.addEventListener('click', clearAllFilters);
+    clearFiltersNoResults?.addEventListener('click', clearAllFilters);
+    
+    // Tag filter functionality
+    const tagFilters = document.querySelectorAll('.tag-filter');
+    tagFilters.forEach(tag => {
+      tag.addEventListener('click', () => {
+        const tagValue = tag.getAttribute('data-tag');
+        if (searchInput && tagValue) {
+          searchInput.value = tagValue;
+          filterPosts();
+          
+          // Scroll to posts section
+          postsGrid?.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    });
+    
+    // Intersection Observer for animations
+    const animatedElements = document.querySelectorAll('.animate-in');
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, {
+      threshold: 0.1,
+      rootMargin: '50px 0px'
+    });
+    
+    animatedElements.forEach((element) => {
+      observer.observe(element);
+    });
+  });
+</script>

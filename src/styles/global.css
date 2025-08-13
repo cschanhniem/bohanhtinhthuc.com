@@ -1,0 +1,195 @@
+/* Import Google Fonts - must be first */
+@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom Properties */
+:root {
+  --glass-bg: rgba(255, 255, 255, 0.1);
+  --glass-border: rgba(255, 255, 255, 0.2);
+  --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  --text-primary: #f3f4f6;
+  --text-secondary: #a1a1aa;
+  --accent-color: #34d399;
+}
+
+/* Base Styles */
+@layer base {
+  * {
+    @apply border-gray-700;
+  }
+  
+  body {
+    @apply bg-gray-950 text-text-primary font-sans;
+    background-image: url('/assets/images/walking.jpg');
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      135deg, 
+      rgba(0, 0, 0, 0.3) 0%, 
+      rgba(0, 0, 0, 0.5) 50%,
+      rgba(0, 0, 0, 0.4) 100%
+    );
+    z-index: -1;
+    pointer-events: none;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-gray-900/50;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-accent-color/30 rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-accent-color/50;
+  }
+}
+
+/* Component Styles */
+@layer components {
+  .glass-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+    @apply rounded-xl;
+  }
+
+  .glass-header {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--glass-border);
+    @apply sticky top-0 z-50;
+  }
+
+  .btn-glass {
+    @apply glass-card px-6 py-3 text-text-primary font-medium transition-all duration-300 hover:bg-white/20 hover:scale-105 active:scale-95;
+  }
+
+  .btn-primary {
+    @apply bg-accent-color/20 text-accent-color border border-accent-color/30 hover:bg-accent-color hover:text-gray-900 hover:shadow-lg hover:shadow-accent-color/25;
+  }
+
+  .prose-glass {
+    @apply prose prose-lg prose-invert max-w-none;
+  }
+
+  .prose-glass img {
+    @apply rounded-xl shadow-2xl;
+  }
+
+  .hero-gradient {
+    background: linear-gradient(
+      135deg, 
+      rgba(34, 211, 153, 0.1) 0%, 
+      rgba(16, 185, 129, 0.05) 50%,
+      rgba(5, 150, 105, 0.1) 100%
+    );
+  }
+
+  .text-gradient {
+    background: linear-gradient(135deg, #34d399, #22c55e, #16a34a);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .animate-in {
+    animation: slideUp 0.6s ease-out forwards;
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  .animate-delay-100 {
+    animation-delay: 0.1s;
+  }
+
+  .animate-delay-200 {
+    animation-delay: 0.2s;
+  }
+
+  .animate-delay-300 {
+    animation-delay: 0.3s;
+  }
+}
+
+/* Utility Classes */
+@layer utilities {
+  .text-shadow {
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  }
+
+  .bg-nature {
+    /* background-image: url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80'); */
+  }
+
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+
+  .preserve-3d {
+    transform-style: preserve-3d;
+  }
+
+  .backface-hidden {
+    backface-visibility: hidden;
+  }
+
+  .writing-mode-vertical {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+  }
+}
+
+/* Focus States for Accessibility */
+@layer utilities {
+  .focus-visible\:ring-accent:focus-visible {
+    @apply ring-2 ring-accent-color ring-offset-2 ring-offset-gray-900;
+  }
+}
+
+/* Print Styles */
+@media print {
+  body {
+    @apply text-gray-900 bg-white;
+  }
+  
+  .glass-card {
+    @apply bg-white border-gray-300 shadow-none;
+  }
+  
+  .no-print {
+    display: none !important;
+  }
+}

@@ -1,0 +1,658 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import GlassCard from '../components/GlassCard.astro';
+import PostCard from '../components/PostCard.astro';
+import Button from '../components/Button.astro';
+
+// Temporarily disabled for build issues
+// const allPosts = await getCollection('thuchanh');
+const allPosts: any[] = [];
+
+// Filter published posts and sort by date
+const publishedPosts = allPosts
+  .filter(post => !post.data?.draft)
+  .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+
+// Get featured posts
+const featuredPosts = publishedPosts.filter(post => post.data.featured);
+const regularPosts = publishedPosts.filter(post => !post.data.featured);
+
+// Group posts by category
+const postsByCategory = publishedPosts.reduce((groups, post) => {
+  const category = post.data.category || 'chánh niệm';
+  if (!groups[category]) groups[category] = [];
+  groups[category].push(post);
+  return groups;
+}, {} as Record<string, typeof publishedPosts>);
+
+// Group by difficulty
+const postsByDifficulty = publishedPosts.reduce((groups, post) => {
+  const difficulty = post.data.difficulty || 'dễ';
+  if (!groups[difficulty]) groups[difficulty] = [];
+  groups[difficulty].push(post);
+  return groups;
+}, {} as Record<string, typeof publishedPosts>);
+
+// Get all unique categories and difficulties
+const categories = Object.keys(postsByCategory);
+const difficulties = ['dễ', 'trung bình', 'khó'];
+
+// Practice stats
+const totalPractices = publishedPosts.length;
+const practicesByDifficulty = {
+  easy: postsByDifficulty['dễ']?.length || 0,
+  medium: postsByDifficulty['trung bình']?.length || 0,
+  hard: postsByDifficulty['khó']?.length || 0
+};
+
+// Category information
+const categoryInfo = {
+  'thiền đi': {
+    icon: '🚶',
+    description: 'Thực hành thiền trong chuyển động, biến mỗi bước chân thành cơ hội tỉnh thức',
+    color: 'emerald'
+  },
+  'chánh niệm': {
+    icon: '🧘',
+    description: 'Phát triển khả năng quan sát và ý thức về hiện tại',
+    color: 'blue'
+  },
+  'ăn uống': {
+    icon: '🍽️',
+    description: 'Thực hành chánh niệm trong việc ăn uống và trân trọng thức ăn',
+    color: 'orange'
+  },
+  'hơi thở': {
+    icon: '🌬️',
+    description: 'Sử dụng hơi thở như cầu nối giữa thân và tâm',
+    color: 'cyan'
+  },
+  'quan sát': {
+    icon: '👁️',
+    description: 'Rèn luyện khả năng quan sát không phán xét',
+    color: 'purple'
+  },
+  'biết ơn': {
+    icon: '🙏',
+    description: 'Phát triển lòng biết ơn và trân trọng cuộc sống',
+    color: 'pink'
+  },
+  'từ bi': {
+    icon: '❤️',
+    description: 'Nuôi dưỡng tình thương và lòng từ bi đối với bản thân và người khác',
+    color: 'red'
+  },
+  'tĩnh lặng': {
+    icon: '🔇',
+    description: 'Tìm về sự tĩnh lặng và bình an nội tại',
+    color: 'gray'
+  }
+};
+---
+
+<BaseLayout 
+  title="Thực hành tỉnh thức"
+  description="Khám phá các phương pháp thực hành tỉnh thức, thiền định và sống chánh niệm. Hướng dẫn chi tiết từ cơ bản đến nâng cao cho người mới bắt đầu."
+>
+  <Header slot="header" />
+
+  <!-- Hero Section -->
+  <section class="relative py-24 lg:py-32 overflow-hidden">
+    <div class="absolute inset-0 z-0">
+      <div 
+        class="absolute inset-0 bg-cover bg-center"
+        style="background-image: url('https://images.unsplash.com/photo-1506629905645-b178a0b13bc8?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80')"
+      ></div>
+      <div class="absolute inset-0 bg-gradient-to-b from-gray-900/70 via-gray-900/50 to-gray-900/70"></div>
+    </div>
+
+    <div class="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-text-primary mb-8 leading-tight">
+          <span class="text-gradient">Thực hành</span> tỉnh thức
+        </h1>
+        
+        <p class="text-xl md:text-2xl text-text-secondary max-w-4xl mx-auto leading-relaxed">
+          Những phương pháp đơn giản nhưng sâu sắc để sống trọn vẹn hơn, 
+          tìm về sự bình an và phát triển tâm linh trong cuộc sống hàng ngày.
+        </p>
+      </div>
+
+      <!-- Practice Statistics -->
+      <GlassCard class="max-w-4xl mx-auto">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+          <div>
+            <div class="text-3xl md:text-4xl font-bold text-accent-color mb-2">{totalPractices}</div>
+            <div class="text-sm text-text-secondary">Bài thực hành</div>
+          </div>
+          <div>
+            <div class="text-3xl md:text-4xl font-bold text-accent-color mb-2">{practicesByDifficulty.easy}</div>
+            <div class="text-sm text-text-secondary">Dành cho người mới</div>
+          </div>
+          <div>
+            <div class="text-3xl md:text-4xl font-bold text-accent-color mb-2">{categories.length}</div>
+            <div class="text-sm text-text-secondary">Chủ đề</div>
+          </div>
+          <div>
+            <div class="text-3xl md:text-4xl font-bold text-accent-color mb-2">∞</div>
+            <div class="text-sm text-text-secondary">Lợi ích</div>
+          </div>
+        </div>
+      </GlassCard>
+    </div>
+  </section>
+
+  <!-- Quick Start Guide -->
+  <section class="py-16 lg:py-24">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-bold text-text-primary mb-4">
+          Bắt đầu hành trình thực hành
+        </h2>
+        <p class="text-lg text-text-secondary max-w-2xl mx-auto">
+          Bạn mới bắt đầu? Hãy theo những bước đơn giản này để bắt đầu hành trình tỉnh thức của mình
+        </p>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- Step 1 -->
+        <GlassCard padding="lg" class="text-center animate-in animate-delay-100">
+          <div class="w-16 h-16 bg-accent-color/20 rounded-full flex items-center justify-center mx-auto mb-6">
+            <span class="text-2xl font-bold text-accent-color">1</span>
+          </div>
+          <h3 class="text-xl font-semibold text-text-primary mb-4">Chọn phương pháp phù hợp</h3>
+          <p class="text-text-secondary mb-6 leading-relaxed">
+            Bắt đầu với những thực hành đơn giản như thiền hơi thở hoặc thiền đi. 
+            Chọn điều gì cảm thấy tự nhiên nhất với bạn.
+          </p>
+          <Button variant="ghost" href="#beginner-practices" size="sm">
+            Xem bài thực hành cho người mới
+          </Button>
+        </GlassCard>
+
+        <!-- Step 2 -->
+        <GlassCard padding="lg" class="text-center animate-in animate-delay-200">
+          <div class="w-16 h-16 bg-accent-color/20 rounded-full flex items-center justify-center mx-auto mb-6">
+            <span class="text-2xl font-bold text-accent-color">2</span>
+          </div>
+          <h3 class="text-xl font-semibold text-text-primary mb-4">Thực hành đều đặn</h3>
+          <p class="text-text-secondary mb-6 leading-relaxed">
+            Bắt đầu với 5-10 phút mỗi ngày. Sự kiên trì quan trọng hơn thời gian dài. 
+            Thực hành đều đặn sẽ mang lại kết quả bền vững.
+          </p>
+          <Button variant="ghost" href="#daily-practices" size="sm">
+            Lập thói quen hàng ngày
+          </Button>
+        </GlassCard>
+
+        <!-- Step 3 -->
+        <GlassCard padding="lg" class="text-center animate-in animate-delay-300">
+          <div class="w-16 h-16 bg-accent-color/20 rounded-full flex items-center justify-center mx-auto mb-6">
+            <span class="text-2xl font-bold text-accent-color">3</span>
+          </div>
+          <h3 class="text-xl font-semibold text-text-primary mb-4">Áp dụng vào cuộc sống</h3>
+          <p class="text-text-secondary mb-6 leading-relaxed">
+            Dần dần mở rộng thực hành vào các hoạt động hàng ngày như ăn uống, 
+            đi bộ, làm việc để sống tỉnh thức hơn.
+          </p>
+          <Button variant="ghost" href="#advanced-practices" size="sm">
+            Thực hành nâng cao
+          </Button>
+        </GlassCard>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Practices -->
+  {featuredPosts.length > 0 && (
+    <section class="py-16 lg:py-24 bg-gradient-to-b from-transparent to-gray-900/30">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+          <h2 class="text-3xl md:text-4xl font-bold text-text-primary mb-4">
+            Thực hành nổi bật
+          </h2>
+          <p class="text-lg text-text-secondary max-w-2xl mx-auto">
+            Những phương pháp được đánh giá cao và phù hợp cho mọi đối tượng
+          </p>
+        </div>
+        
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {featuredPosts.slice(0, 2).map((post, index) => (
+            <div class={`animate-in animate-delay-${(index + 1) * 100}`}>
+              <PostCard
+                title={post.data.title}
+                description={post.data.description}
+                pubDate={post.data.pubDate}
+                author={post.data.author}
+                image={post.data.image}
+                tags={post.data.tags}
+                href={`/thuchanh/${post.slug}`}
+                readingTime={post.data.readingTime ? `${post.data.readingTime} phút đọc` : undefined}
+                featured={true}
+                variant="featured"
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- Practice Categories -->
+  <section class="py-16 lg:py-24" id="categories">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-bold text-text-primary mb-4">
+          Khám phá theo chủ đề
+        </h2>
+        <p class="text-lg text-text-secondary max-w-2xl mx-auto">
+          Tìm hiểu các phương pháp thực hành theo từng lĩnh vực cụ thể
+        </p>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {categories.map((category, index) => {
+          const info = categoryInfo[category as keyof typeof categoryInfo] || {
+            icon: '🧘',
+            description: 'Thực hành tỉnh thức',
+            color: 'emerald'
+          };
+          const postCount = postsByCategory[category].length;
+          
+          return (
+            <GlassCard 
+              variant="hover" 
+              padding="lg" 
+              class={`text-center group cursor-pointer animate-in animate-delay-${((index % 4) + 1) * 100}`}
+              data-category={category}
+            >
+              <div class="text-4xl mb-4">{info.icon}</div>
+              <h3 class="text-lg font-semibold text-text-primary mb-2 capitalize">
+                {category}
+              </h3>
+              <p class="text-sm text-text-secondary mb-4 leading-relaxed">
+                {info.description}
+              </p>
+              <div class="flex items-center justify-between">
+                <span class="text-xs text-accent-color font-medium">
+                  {postCount} bài thực hành
+                </span>
+                <svg class="w-4 h-4 text-accent-color group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+              </div>
+            </GlassCard>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+
+  <!-- Difficulty Levels -->
+  <section class="py-16 lg:py-24 bg-gradient-to-b from-gray-900/30 to-transparent">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-bold text-text-primary mb-4">
+          Chọn theo trình độ
+        </h2>
+        <p class="text-lg text-text-secondary max-w-2xl mx-auto">
+          Từ người mới bắt đầu đến những ai đã có kinh nghiệm thực hành
+        </p>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {difficulties.map((difficulty, index) => {
+          const posts = postsByDifficulty[difficulty] || [];
+          const difficultyInfo = {
+            'dễ': {
+              icon: '🌱',
+              title: 'Người mới bắt đầu',
+              description: 'Những thực hành đơn giản, dễ thực hiện cho người mới',
+              color: 'green'
+            },
+            'trung bình': {
+              icon: '🌿',
+              title: 'Đã có kinh nghiệm',
+              description: 'Phát triển sâu hơn các kỹ năng đã học',
+              color: 'yellow'
+            },
+            'khó': {
+              icon: '🌳',
+              title: 'Nâng cao',
+              description: 'Những thực hành sâu sắc cho người có kinh nghiệm',
+              color: 'red'
+            }
+          };
+          
+          const info = difficultyInfo[difficulty as keyof typeof difficultyInfo];
+          
+          return (
+            <GlassCard 
+              padding="lg" 
+              class={`text-center animate-in animate-delay-${(index + 1) * 100}`}
+            >
+              <div class="text-4xl mb-4">{info.icon}</div>
+              <h3 class="text-xl font-semibold text-text-primary mb-2">
+                {info.title}
+              </h3>
+              <p class="text-text-secondary mb-6 leading-relaxed">
+                {info.description}
+              </p>
+              
+              <div class="space-y-3 mb-6">
+                {posts.slice(0, 3).map(post => (
+                  <div class="text-left">
+                    <h4 class="text-sm font-medium text-text-primary hover:text-accent-color transition-colors">
+                      <a href={`/thuchanh/${post.slug}`}>{post.data.title}</a>
+                    </h4>
+                    {post.data.duration && (
+                      <p class="text-xs text-text-secondary">⏱️ {post.data.duration}</p>
+                    )}
+                  </div>
+                ))}
+              </div>
+              
+              <Button
+                variant="outline"
+                size="sm"
+                class="w-full"
+                data-difficulty={difficulty}
+              >
+                Xem tất cả ({posts.length})
+              </Button>
+            </GlassCard>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+
+  <!-- All Practices -->
+  <section class="py-16 lg:py-24" id="all-practices">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Filter Controls -->
+      <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between mb-12 space-y-4 lg:space-y-0">
+        <div>
+          <h2 class="text-3xl md:text-4xl font-bold text-text-primary mb-2">
+            Tất cả bài thực hành
+          </h2>
+          <p class="text-lg text-text-secondary">
+            Khám phá toàn bộ kho tàng thực hành tỉnh thức
+          </p>
+        </div>
+        
+        <!-- Filters -->
+        <div class="flex flex-wrap items-center gap-4">
+          <select 
+            class="glass-card px-3 py-2 text-text-primary text-sm rounded-lg border-white/20 focus:outline-none focus:ring-2 focus:ring-accent-color"
+            id="category-filter"
+          >
+            <option value="">Tất cả chủ đề</option>
+            {categories.map(category => (
+              <option value={category}>{category}</option>
+            ))}
+          </select>
+
+          <select 
+            class="glass-card px-3 py-2 text-text-primary text-sm rounded-lg border-white/20 focus:outline-none focus:ring-2 focus:ring-accent-color"
+            id="difficulty-filter"
+          >
+            <option value="">Tất cả mức độ</option>
+            {difficulties.map(difficulty => (
+              <option value={difficulty}>{difficulty}</option>
+            ))}
+          </select>
+
+          <input
+            type="text"
+            placeholder="Tìm kiếm..."
+            class="glass-card px-3 py-2 text-text-primary placeholder-text-secondary text-sm rounded-lg border-white/20 focus:outline-none focus:ring-2 focus:ring-accent-color w-48"
+            id="search-input"
+          />
+        </div>
+      </div>
+
+      <!-- Practices Grid -->
+      <div id="practices-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {regularPosts.map((post, index) => (
+          <div 
+            class={`practice-item animate-in animate-delay-${((index % 6) + 1) * 100}`}
+            data-category={post.data.category}
+            data-difficulty={post.data.difficulty}
+            data-title={post.data.title.toLowerCase()}
+            data-description={post.data.description.toLowerCase()}
+            data-tags={post.data.tags.join(',')}
+          >
+            <PostCard
+              title={post.data.title}
+              description={post.data.description}
+              pubDate={post.data.pubDate}
+              author={post.data.author}
+              image={post.data.image}
+              tags={post.data.tags}
+              href={`/thuchanh/${post.slug}`}
+              readingTime={post.data.readingTime ? `${post.data.readingTime} phút đọc` : undefined}
+              variant="default"
+            />
+          </div>
+        ))}
+      </div>
+
+      <!-- No Results -->
+      <div id="no-results" class="hidden text-center py-16">
+        <div class="w-24 h-24 bg-accent-color/20 rounded-full flex items-center justify-center mx-auto mb-6">
+          <svg class="w-12 h-12 text-accent-color/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+        </div>
+        <h3 class="text-xl font-semibold text-text-primary mb-4">
+          Không tìm thấy bài thực hành nào
+        </h3>
+        <p class="text-text-secondary mb-6">
+          Thử thay đổi bộ lọc hoặc từ khóa tìm kiếm
+        </p>
+        <Button variant="outline" id="clear-filters">
+          Xóa tất cả bộ lọc
+        </Button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Newsletter CTA -->
+  <section class="py-16 lg:py-24">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <GlassCard padding="xl" class="text-center">
+        <h2 class="text-2xl md:text-3xl font-bold text-text-primary mb-6">
+          Nhận bài thực hành mới
+        </h2>
+        
+        <p class="text-lg text-text-secondary mb-8 max-w-2xl mx-auto">
+          Đăng ký để nhận thông báo về những bài thực hành mới và tips tỉnh thức hàng ngày
+        </p>
+        
+        <form class="max-w-md mx-auto" aria-label="Đăng ký nhận bài thực hành">
+          <div class="flex flex-col sm:flex-row gap-4">
+            <input
+              type="email"
+              placeholder="Email của bạn"
+              class="flex-1 px-4 py-3 glass-card text-text-primary placeholder-text-secondary border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-color focus:border-accent-color transition-all duration-300"
+              required
+            />
+            <Button
+              type="submit"
+              variant="primary"
+              size="md"
+              class="px-8 py-3 whitespace-nowrap"
+            >
+              Đăng ký
+            </Button>
+          </div>
+        </form>
+      </GlassCard>
+    </div>
+  </section>
+
+  <Footer slot="footer" />
+</BaseLayout>
+
+<style>
+  .text-gradient {
+    background: linear-gradient(135deg, #34d399, #22c55e, #16a34a);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  /* Animation styles */
+  .animate-in {
+    animation: slideUp 0.6s ease-out forwards;
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  
+  .animate-delay-100 { animation-delay: 0.1s; }
+  .animate-delay-200 { animation-delay: 0.2s; }
+  .animate-delay-300 { animation-delay: 0.3s; }
+  .animate-delay-400 { animation-delay: 0.4s; }
+  .animate-delay-500 { animation-delay: 0.5s; }
+  .animate-delay-600 { animation-delay: 0.6s; }
+  
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Reduced motion support */
+  @media (prefers-reduced-motion: reduce) {
+    .animate-in {
+      animation: none;
+      opacity: 1;
+      transform: none;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Filter functionality
+    const categoryFilter = document.getElementById('category-filter') as HTMLSelectElement;
+    const difficultyFilter = document.getElementById('difficulty-filter') as HTMLSelectElement;
+    const searchInput = document.getElementById('search-input') as HTMLInputElement;
+    const clearFilters = document.getElementById('clear-filters');
+    const noResults = document.getElementById('no-results');
+    
+    function filterPractices() {
+      const categoryValue = categoryFilter?.value;
+      const difficultyValue = difficultyFilter?.value;
+      const searchValue = searchInput?.value.toLowerCase();
+      
+      const practiceItems = document.querySelectorAll('.practice-item');
+      let visibleCount = 0;
+      
+      practiceItems.forEach(item => {
+        const category = item.getAttribute('data-category');
+        const difficulty = item.getAttribute('data-difficulty');
+        const title = item.getAttribute('data-title');
+        const description = item.getAttribute('data-description');
+        const tags = item.getAttribute('data-tags');
+        
+        const matchesCategory = !categoryValue || category === categoryValue;
+        const matchesDifficulty = !difficultyValue || difficulty === difficultyValue;
+        const matchesSearch = !searchValue || 
+          title?.includes(searchValue) || 
+          description?.includes(searchValue) ||
+          tags?.includes(searchValue);
+        
+        if (matchesCategory && matchesDifficulty && matchesSearch) {
+          (item as HTMLElement).style.display = '';
+          visibleCount++;
+        } else {
+          (item as HTMLElement).style.display = 'none';
+        }
+      });
+      
+      // Show/hide no results message
+      if (visibleCount === 0) {
+        noResults?.classList.remove('hidden');
+      } else {
+        noResults?.classList.add('hidden');
+      }
+    }
+    
+    // Add event listeners for filters
+    categoryFilter?.addEventListener('change', filterPractices);
+    difficultyFilter?.addEventListener('change', filterPractices);
+    searchInput?.addEventListener('input', filterPractices);
+    
+    // Clear filters
+    clearFilters?.addEventListener('click', () => {
+      if (categoryFilter) categoryFilter.value = '';
+      if (difficultyFilter) difficultyFilter.value = '';
+      if (searchInput) searchInput.value = '';
+      filterPractices();
+    });
+    
+    // Category card clicks
+    const categoryCards = document.querySelectorAll('[data-category]');
+    categoryCards.forEach(card => {
+      card.addEventListener('click', () => {
+        const category = card.getAttribute('data-category');
+        if (categoryFilter && category) {
+          categoryFilter.value = category;
+          filterPractices();
+          
+          // Scroll to practices section
+          document.getElementById('all-practices')?.scrollIntoView({ 
+            behavior: 'smooth' 
+          });
+        }
+      });
+    });
+    
+    // Difficulty button clicks
+    const difficultyButtons = document.querySelectorAll('[data-difficulty]');
+    difficultyButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        const difficulty = button.getAttribute('data-difficulty');
+        if (difficultyFilter && difficulty) {
+          difficultyFilter.value = difficulty;
+          filterPractices();
+          
+          // Scroll to practices section
+          document.getElementById('all-practices')?.scrollIntoView({ 
+            behavior: 'smooth' 
+          });
+        }
+      });
+    });
+    
+    // Intersection Observer for animations
+    const animatedElements = document.querySelectorAll('.animate-in');
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, {
+      threshold: 0.1,
+      rootMargin: '50px 0px'
+    });
+    
+    animatedElements.forEach((element) => {
+      observer.observe(element);
+    });
+  });
+</script>

@@ -1,0 +1,396 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import GlassCard from '../components/GlassCard.astro';
+import Button from '../components/Button.astro';
+---
+
+<BaseLayout 
+  title="Giới thiệu về Bộ Hành Tỉnh Thức"
+  description="Tìm hiểu về hành trình bộ hành xuyên Việt Nam với tốc độ chậm, thực hành ăn một bữa mỗi ngày, và tìm về sự tỉnh thức trong từng khoảnh khắc sống."
+>
+  <Header slot="header" />
+
+  <!-- Hero Section -->
+  <section class="relative py-24 lg:py-32 overflow-hidden">
+    <div class="absolute inset-0 z-0">
+      <div 
+        class="absolute inset-0 bg-cover bg-center"
+        style="background-image: url('https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80')"
+      ></div>
+      <div class="absolute inset-0 bg-gradient-to-b from-gray-900/70 via-gray-900/50 to-gray-900/70"></div>
+    </div>
+
+    <div class="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-text-primary mb-8 leading-tight">
+        Về <span class="text-gradient">Bộ Hành Tỉnh Thức</span>
+      </h1>
+      
+      <p class="text-xl md:text-2xl text-text-secondary max-w-3xl mx-auto leading-relaxed">
+        Một hành trình không chỉ về khoảng cách địa lý, mà về việc tìm lại sự kết nối 
+        với chính mình, với thiên nhiên, và với ý nghĩa sâu sắc của cuộc sống.
+      </p>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <section class="py-16 lg:py-24">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Mission Statement -->
+      <GlassCard padding="xl" class="mb-16 animate-in">
+        <div class="text-center">
+          <div class="w-20 h-20 bg-accent-color/20 rounded-full flex items-center justify-center mx-auto mb-8">
+            <svg class="w-10 h-10 text-accent-color" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+            </svg>
+          </div>
+          
+          <h2 class="text-3xl md:text-4xl font-bold text-text-primary mb-6">
+            Sứ mệnh của hành trình
+          </h2>
+          
+          <blockquote class="text-xl md:text-2xl text-text-secondary italic leading-relaxed mb-8">
+            "Trong thế giới ngày càng vội vã và náo nhiệt, chúng ta cần tìm lại sự bình an, 
+            sự tỉnh thức và khả năng trân trọng những điều đơn giản nhưng ý nghĩa."
+          </blockquote>
+          
+          <p class="text-lg text-text-secondary leading-relaxed">
+            Dự án "Bộ Hành Tỉnh Thức" ra đời từ mong muốn chia sẻ một cách sống khác - 
+            chậm hơn, sâu sắc hơn, và trọn vẹn hơn.
+          </p>
+        </div>
+      </GlassCard>
+
+      <!-- The Journey Philosophy -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
+        
+        <!-- Philosophy Cards -->
+        <div class="space-y-8">
+          <GlassCard padding="lg" class="animate-in animate-delay-100">
+            <div class="flex items-start space-x-4">
+              <div class="w-12 h-12 bg-accent-color/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                <svg class="w-6 h-6 text-accent-color" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5" />
+                </svg>
+              </div>
+              <div>
+                <h3 class="text-xl font-semibold text-text-primary mb-3">Đi chậm để sống sâu</h3>
+                <p class="text-text-secondary leading-relaxed">
+                  Thay vì vội vã đến đích, chúng ta chọn đi với tốc độ 20km/ngày để có thời gian 
+                  quan sát, lắng nghe và cảm nhận từng khoảnh khắc của hành trình.
+                </p>
+              </div>
+            </div>
+          </GlassCard>
+
+          <GlassCard padding="lg" class="animate-in animate-delay-200">
+            <div class="flex items-start space-x-4">
+              <div class="w-12 h-12 bg-accent-color/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                <svg class="w-6 h-6 text-accent-color" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                </svg>
+              </div>
+              <div>
+                <h3 class="text-xl font-semibold text-text-primary mb-3">Một bữa mỗi ngày</h3>
+                <p class="text-text-secondary leading-relaxed">
+                  Thực hành ăn một bữa mỗi ngày không chỉ để đơn giản hóa cuộc sống, 
+                  mà còn để trân trọng thức ăn và phát triển lòng đồng cảm với những người kém may mắn.
+                </p>
+              </div>
+            </div>
+          </GlassCard>
+
+          <GlassCard padding="lg" class="animate-in animate-delay-300">
+            <div class="flex items-start space-x-4">
+              <div class="w-12 h-12 bg-accent-color/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                <svg class="w-6 h-6 text-accent-color" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                </svg>
+              </div>
+              <div>
+                <h3 class="text-xl font-semibold text-text-primary mb-3">Kết nối con người</h3>
+                <p class="text-text-secondary leading-relaxed">
+                  Dừng lại ở mỗi nơi để lắng nghe câu chuyện của người dân địa phương, 
+                  tìm hiểu văn hóa và chia sẻ những trải nghiệm chân thực.
+                </p>
+              </div>
+            </div>
+          </GlassCard>
+        </div>
+
+        <!-- Journey Map/Stats -->
+        <div class="space-y-8">
+          <GlassCard padding="lg" class="animate-in animate-delay-400">
+            <h3 class="text-xl font-semibold text-text-primary mb-6 text-center">Hành trình qua con số</h3>
+            
+            <div class="grid grid-cols-2 gap-6">
+              <div class="text-center">
+                <div class="text-3xl font-bold text-accent-color mb-2">~1,600km</div>
+                <div class="text-sm text-text-secondary">Tổng quãng đường</div>
+              </div>
+              <div class="text-center">
+                <div class="text-3xl font-bold text-accent-color mb-2">80+ ngày</div>
+                <div class="text-sm text-text-secondary">Thời gian dự kiến</div>
+              </div>
+              <div class="text-center">
+                <div class="text-3xl font-bold text-accent-color mb-2">63 tỉnh</div>
+                <div class="text-sm text-text-secondary">Sẽ đi qua</div>
+              </div>
+              <div class="text-center">
+                <div class="text-3xl font-bold text-accent-color mb-2">1 bữa</div>
+                <div class="text-sm text-text-secondary">Mỗi ngày</div>
+              </div>
+            </div>
+          </GlassCard>
+
+          <GlassCard padding="lg" class="animate-in animate-delay-500">
+            <h3 class="text-xl font-semibold text-text-primary mb-4">Lộ trình dự kiến</h3>
+            
+            <div class="space-y-4">
+              <div class="flex items-center space-x-3">
+                <div class="w-3 h-3 bg-accent-color rounded-full"></div>
+                <span class="text-text-secondary">Cà Mau (Đất Mũi) - Điểm khởi đầu</span>
+              </div>
+              <div class="flex items-center space-x-3">
+                <div class="w-3 h-3 bg-accent-color/60 rounded-full"></div>
+                <span class="text-text-secondary">Miền Tây → TP.HCM → Miền Trung</span>
+              </div>
+              <div class="flex items-center space-x-3">
+                <div class="w-3 h-3 bg-accent-color/40 rounded-full"></div>
+                <span class="text-text-secondary">Miền Bắc → Hà Nội</span>
+              </div>
+              <div class="flex items-center space-x-3">
+                <div class="w-3 h-3 bg-accent-color/20 rounded-full"></div>
+                <span class="text-text-secondary">Lạng Sơn (Đồng Đăng) - Điểm cuối</span>
+              </div>
+            </div>
+          </GlassCard>
+        </div>
+      </div>
+
+      <!-- Personal Story -->
+      <GlassCard padding="xl" class="mb-16 animate-in">
+        <div class="max-w-3xl mx-auto">
+          <div class="text-center mb-8">
+            <div class="w-24 h-24 bg-accent-color/20 rounded-full flex items-center justify-center mx-auto mb-6">
+              <svg class="w-12 h-12 text-accent-color" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+              </svg>
+            </div>
+            <h2 class="text-3xl md:text-4xl font-bold text-text-primary mb-4">
+              Về Người Bộ Hành
+            </h2>
+          </div>
+          
+          <div class="prose prose-lg prose-invert max-w-none">
+            <p class="text-lg text-text-secondary leading-relaxed mb-6">
+              Tôi không phải là một nhà sư, không phải là một chuyên gia thiền định, 
+              cũng không phải là một blogger du lịch chuyên nghiệp. Tôi chỉ là một người bình thường, 
+              với những lo âu và khao khát như bao người khác.
+            </p>
+            
+            <p class="text-lg text-text-secondary leading-relaxed mb-6">
+              Ý tưởng về hành trình này nảy sinh từ một giai đoạn khó khăn trong cuộc sống - 
+              khi tôi cảm thấy mình đang sống một cách máy móc, thiếu ý nghĩa và kết nối. 
+              Tôi nhận ra rằng mình cần một sự thay đổi căn bản, một cách để "reset" lại cuộc sống.
+            </p>
+            
+            <blockquote class="border-l-4 border-accent-color bg-accent-color/5 rounded-r-lg p-6 my-8">
+              <p class="text-text-primary font-medium italic text-xl">
+                "Có lẽ câu trả lời không nằm ở đích đến, mà ở chính con đường đi. 
+                Có lẽ sự bình an không phải là một nơi chốn, mà là một cách sống."
+              </p>
+            </blockquote>
+            
+            <p class="text-lg text-text-secondary leading-relaxed">
+              Và thế là hành trình "Bộ Hành Tỉnh Thức" ra đời - không phải để chứng minh điều gì, 
+              không phải để trở nên nổi tiếng, mà đơn giản để tìm lại chính mình và chia sẻ 
+              những điều học được trên con đường ấy.
+            </p>
+          </div>
+        </div>
+      </GlassCard>
+
+      <!-- Values & Principles -->
+      <div class="mb-16">
+        <div class="text-center mb-12">
+          <h2 class="text-3xl md:text-4xl font-bold text-text-primary mb-4">
+            Nguyên tắc hành trình
+          </h2>
+          <p class="text-lg text-text-secondary max-w-2xl mx-auto">
+            Những giá trị cốt lõi định hướng mọi bước đi trên hành trình này
+          </p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <GlassCard padding="lg" class="animate-in animate-delay-100">
+            <h3 class="text-xl font-semibold text-text-primary mb-4 flex items-center">
+              <span class="w-8 h-8 bg-accent-color/20 rounded-full flex items-center justify-center mr-3">
+                <span class="text-accent-color font-bold text-sm">1</span>
+              </span>
+              Chân thật
+            </h3>
+            <p class="text-text-secondary leading-relaxed">
+              Chia sẻ những trải nghiệm thật, không tô vẽ hay che giấu những khó khăn, 
+              thất bại hay cảm xúc tiêu cực.
+            </p>
+          </GlassCard>
+
+          <GlassCard padding="lg" class="animate-in animate-delay-200">
+            <h3 class="text-xl font-semibold text-text-primary mb-4 flex items-center">
+              <span class="w-8 h-8 bg-accent-color/20 rounded-full flex items-center justify-center mr-3">
+                <span class="text-accent-color font-bold text-sm">2</span>
+              </span>
+              Tôn trọng
+            </h3>
+            <p class="text-text-secondary leading-relaxed">
+              Tôn trọng người dân địa phương, văn hóa, truyền thống và môi trường 
+              tự nhiên ở mọi nơi đi qua.
+            </p>
+          </GlassCard>
+
+          <GlassCard padding="lg" class="animate-in animate-delay-300">
+            <h3 class="text-xl font-semibold text-text-primary mb-4 flex items-center">
+              <span class="w-8 h-8 bg-accent-color/20 rounded-full flex items-center justify-center mr-3">
+                <span class="text-accent-color font-bold text-sm">3</span>
+              </span>
+              Đơn giản
+            </h3>
+            <p class="text-text-secondary leading-relaxed">
+              Sống tối giản, chỉ mang theo những gì thực sự cần thiết, 
+              và tìm thấy hạnh phúc trong những điều giản dị.
+            </p>
+          </GlassCard>
+
+          <GlassCard padding="lg" class="animate-in animate-delay-400">
+            <h3 class="text-xl font-semibold text-text-primary mb-4 flex items-center">
+              <span class="w-8 h-8 bg-accent-color/20 rounded-full flex items-center justify-center mr-3">
+                <span class="text-accent-color font-bold text-sm">4</span>
+              </span>
+              Chánh niệm
+            </h3>
+            <p class="text-text-secondary leading-relaxed">
+              Thực hành sự tỉnh thức trong mọi hoạt động, từ việc đi bộ, 
+              ăn uống đến quan sát và tương tác với thế giới xung quanh.
+            </p>
+          </GlassCard>
+        </div>
+      </div>
+
+      <!-- Call to Action -->
+      <GlassCard padding="xl" class="text-center animate-in">
+        <h2 class="text-2xl md:text-3xl font-bold text-text-primary mb-6">
+          Đồng hành cùng hành trình
+        </h2>
+        
+        <p class="text-lg text-text-secondary mb-8 max-w-2xl mx-auto">
+          Hành trình này không chỉ của riêng tôi. Mọi sự quan tâm, chia sẻ và đồng hành 
+          của bạn đều làm cho con đường này trở nên ý nghĩa hơn.
+        </p>
+        
+        <div class="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6">
+          <Button
+            variant="primary"
+            size="lg"
+            href="/hanhtrinh"
+            icon="arrow"
+            iconPosition="right"
+          >
+            Theo dõi hành trình
+          </Button>
+          
+          <Button
+            variant="outline"
+            size="lg"
+            href="/lienhe"
+          >
+            Liên hệ với tôi
+          </Button>
+        </div>
+      </GlassCard>
+    </div>
+  </section>
+
+  <Footer slot="footer" />
+</BaseLayout>
+
+<style>
+  .text-gradient {
+    background: linear-gradient(135deg, #34d399, #22c55e, #16a34a);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  /* Additional animations */
+  .animate-in {
+    animation: slideUp 0.6s ease-out forwards;
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  
+  .animate-delay-100 {
+    animation-delay: 0.1s;
+  }
+  
+  .animate-delay-200 {
+    animation-delay: 0.2s;
+  }
+  
+  .animate-delay-300 {
+    animation-delay: 0.3s;
+  }
+  
+  .animate-delay-400 {
+    animation-delay: 0.4s;
+  }
+  
+  .animate-delay-500 {
+    animation-delay: 0.5s;
+  }
+  
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Reduced motion support */
+  @media (prefers-reduced-motion: reduce) {
+    .animate-in {
+      animation: none;
+      opacity: 1;
+      transform: none;
+    }
+  }
+</style>
+
+<script>
+  // Intersection Observer for animations
+  document.addEventListener('DOMContentLoaded', () => {
+    const animatedElements = document.querySelectorAll('.animate-in');
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, {
+      threshold: 0.1,
+      rootMargin: '50px 0px'
+    });
+    
+    animatedElements.forEach((element) => {
+      observer.observe(element);
+    });
+  });
+</script>
