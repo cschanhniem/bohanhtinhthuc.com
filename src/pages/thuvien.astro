@@ -29,19 +29,19 @@ const galleryImages = [
     id: 3,
     url: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
     alt: 'Rừng tre xanh mướt',
-    caption: 'Rừng tre xanh mướt - nơi tâm hồn tìm về sự tĩnh lặng',
+    caption: 'Rừng tre xanh mướt - nơi tâm hồn tìm về sự bình yên',
     location: 'An Giang',
     date: '2025-01-20',
-    tags: ['rừng tre', 'an giang', 'tĩnh lặng']
+    tags: ['rừng tre', 'an giang', 'bình yên']
   },
   {
     id: 4,
     url: 'https://images.unsplash.com/photo-1506629905645-b178a0b13bc8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-    alt: 'Thiền trong rừng',
-    caption: 'Khoảnh khắc thiền giữa thiên nhiên hoang dã',
+    alt: 'Thư giãn trong rừng',
+    caption: 'Khoảnh khắc thư giãn giữa thiên nhiên hoang dã',
     location: 'Tây Ninh',
     date: '2025-01-22',
-    tags: ['thiền', 'tây ninh', 'thiên nhiên']
+    tags: ['thư giãn', 'tây ninh', 'thiên nhiên']
   },
   {
     id: 5,
@@ -70,7 +70,7 @@ const allTags = [...new Set(galleryImages.flatMap(img => img.tags))];
 
 <BaseLayout 
   title="Thư viện ảnh - Hành trình qua ống kính"
-  description="Những hình ảnh đẹp được ghi lại trong hành trình tu tập xuyên Việt Nam. Mỗi bức ảnh thể hiện vẻ đẹp của sự an lạc, chánh niệm và những khoảnh khắc tỉnh thức."
+  description="Những hình ảnh đẹp được ghi lại trong hành trình xuyên Việt Nam. Mỗi bức ảnh thể hiện vẻ đẹp của sự bình yên, tỉnh thức và những khoảnh khắc ý nghĩa."
 >
   <Header slot="header" />
 
@@ -90,8 +90,8 @@ const allTags = [...new Set(galleryImages.flatMap(img => img.tags))];
       </h1>
       
       <p class="text-xl md:text-2xl text-text-secondary max-w-4xl mx-auto leading-relaxed mb-12">
-        Những khoảnh khắc an lạc được ghi lại trong hành trình tu tập xuyên Việt Nam. 
-        Mỗi bức ảnh thể hiện vẻ đẹp của chánh niệm, từ bi và sự tỉnh thức trong cuộc sống.
+        Những khoảnh khắc đẹp được ghi lại trong hành trình xuyên Việt Nam. 
+        Mỗi bức ảnh thể hiện vẻ đẹp của tỉnh thức, yêu thương và những khoảnh khắc ý nghĩa trong cuộc sống.
       </p>
 
       <!-- Gallery Stats -->

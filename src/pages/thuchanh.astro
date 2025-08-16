@@ -50,19 +50,19 @@ const practicesByDifficulty = {
 
 // Category information
 const categoryInfo = {
-  'thiền đi': {
+  'đi bộ tỉnh thức': {
     icon: '🚶',
-    description: 'Thực hành thiền trong chuyển động, biến mỗi bước chân thành cơ hội tỉnh thức',
+    description: 'Thực hành đi bộ có ý thức, biến mỗi bước chân thành cơ hội tỉnh thức',
     color: 'emerald'
   },
-  'chánh niệm': {
+  'tỉnh thức': {
     icon: '🧘',
     description: 'Phát triển khả năng quan sát và ý thức về hiện tại',
     color: 'blue'
   },
   'ăn uống': {
     icon: '🍽️',
-    description: 'Thực hành chánh niệm trong việc ăn uống và trân trọng thức ăn',
+    description: 'Thực hành tỉnh thức trong việc ăn uống và trân trọng thức ăn',
     color: 'orange'
   },
   'hơi thở': {
@@ -80,14 +80,14 @@ const categoryInfo = {
     description: 'Phát triển lòng biết ơn và trân trọng cuộc sống',
     color: 'pink'
   },
-  'từ bi': {
+  'yêu thương': {
     icon: '❤️',
-    description: 'Nuôi dưỡng tình thương và lòng từ bi đối với bản thân và người khác',
+    description: 'Nuôi dưỡng tình thương và lòng yêu thương đối với bản thân và người khác',
     color: 'red'
   },
-  'tĩnh lặng': {
+  'bình yên': {
     icon: '🔇',
-    description: 'Tìm về sự tĩnh lặng và bình an nội tại',
+    description: 'Tìm về sự tĩnh lặng và bình yên trong lòng',
     color: 'gray'
   }
 };
@@ -95,7 +95,7 @@ const categoryInfo = {
 
 <BaseLayout 
   title="Thực hành tỉnh thức"
-  description="Thực hành những giá trị Phật pháp trong cuộc sống hàng ngày: chánh niệm, từ bi, tri túc. Hướng dẫn chi tiết từ cơ bản đến nâng cao cho hành trình an lạc."
+  description="Thực hành những giá trị tốt đẹp trong cuộc sống hàng ngày: tỉnh thức, yêu thương, sống đơn giản. Hướng dẫn chi tiết từ cơ bản đến nâng cao cho hành trình bình yên."
 >
   <Header slot="header" />
 
@@ -112,12 +112,12 @@ const categoryInfo = {
     <div class="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="text-center mb-12">
         <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-text-primary mb-8 leading-tight">
-          <span class="text-gradient">Thực hành</span> an lạc
+          <span class="text-gradient">Thực hành</span> sống đẹp
         </h1>
         
         <p class="text-xl md:text-2xl text-text-secondary max-w-4xl mx-auto leading-relaxed">
-          Những phương pháp tu tập đơn giản nhưng sâu sắc theo tinh thần Phật pháp, 
-          nuôi dưỡng chánh niệm, từ bi và tri túc trong cuộc sống hàng ngày.
+          Những phương pháp đơn giản nhưng sâu sắc giúp nâng cao chất lượng cuộc sống, 
+          nuôi dưỡng tỉnh thức, yêu thương và sự đơn giản trong cuộc sống hàng ngày.
         </p>
       </div>
 
@@ -150,10 +150,10 @@ const categoryInfo = {
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="text-center mb-12">
         <h2 class="text-3xl md:text-4xl font-bold text-text-primary mb-4">
-          Bắt đầu hành trình tu tập
+          Bắt đầu hành trình phát triển bản thân
         </h2>
         <p class="text-lg text-text-secondary max-w-2xl mx-auto">
-          Bạn mới bắt đầu? Hãy theo những bước đơn giản này để bắt đầu hành trình an lạc theo tinh thần Phật pháp
+          Bạn mới bắt đầu? Hãy theo những bước đơn giản này để bắt đầu hành trình phát triển bản thân và tìm về sự bình yên
         </p>
       </div>
       
@@ -165,7 +165,7 @@ const categoryInfo = {
           </div>
           <h3 class="text-xl font-semibold text-text-primary mb-4">Chọn phương pháp phù hợp</h3>
           <p class="text-text-secondary mb-6 leading-relaxed">
-            Bắt đầu với những thực hành đơn giản như thiền hơi thở hoặc thiền đi. 
+            Bắt đầu với những thực hành đơn giản như thở chậm hoặc đi bộ tỉnh thức. 
             Chọn điều gì cảm thấy tự nhiên nhất với bạn.
           </p>
           <Button variant="ghost" href="#beginner-practices" size="sm">
@@ -257,7 +257,7 @@ const categoryInfo = {
         {categories.map((category, index) => {
           const info = categoryInfo[category as keyof typeof categoryInfo] || {
             icon: '🧘',
-            description: 'Thực hành tỉnh thức',
+            description: 'Thực hành sống tỉnh thức',
             color: 'emerald'
           };
           const postCount = postsByCategory[category].length;
