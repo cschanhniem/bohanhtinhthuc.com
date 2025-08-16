@@ -146,6 +146,31 @@
 
 /* Utility Classes */
 @layer utilities {
+  /* Dark mode specific text utilities */
+  .text-readable {
+    @apply text-gray-100;
+  }
+  
+  .text-readable-secondary {
+    @apply text-gray-300;
+  }
+  
+  .text-readable-muted {
+    @apply text-gray-400;
+  }
+  
+  /* Ensure proper contrast for dark mode */
+  .dark .text-default {
+    @apply text-gray-100;
+  }
+  
+  .dark .text-secondary {
+    @apply text-gray-300;
+  }
+  
+  .dark .text-muted {
+    @apply text-gray-400;
+  }
   .text-shadow {
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
   }
