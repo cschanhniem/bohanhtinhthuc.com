@@ -5,8 +5,10 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Be Vietnam Pro', 'system-ui', 'sans-serif'],
-        display: ['Be Vietnam Pro', 'system-ui', 'sans-serif'],
+        sans: ['"Inter"', '"Be Vietnam Pro"', 'system-ui', 'sans-serif'],
+        display: ['"Space Grotesk"', '"Be Vietnam Pro"', 'system-ui', 'sans-serif'],
+        mono: ['"JetBrains Mono"', '"Fira Code"', 'Consolas', 'monospace'],
+        vietnamese: ['"Be Vietnam Pro"', '"Inter"', 'system-ui', 'sans-serif'],
       },
       colors: {
         primary: {
@@ -29,8 +31,8 @@ module.exports = {
         },
         'accent-color': '#34d399',
         text: {
-          primary: '#f3f4f6',
-          secondary: '#a1a1aa',
+          primary: '#f9fafb',
+          secondary: '#d1d5db',
           accent: '#34d399',
         },
       },

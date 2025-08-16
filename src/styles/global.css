@@ -1,5 +1,5 @@
-/* Import Google Fonts - must be first */
-@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+/* Import Modern Google Fonts - must be first */
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Space+Grotesk:wght@300..700&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Be+Vietnam+Pro:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -10,8 +10,8 @@
   --glass-bg: rgba(255, 255, 255, 0.1);
   --glass-border: rgba(255, 255, 255, 0.2);
   --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-  --text-primary: #f3f4f6;
-  --text-secondary: #a1a1aa;
+  --text-primary: #f9fafb;
+  --text-secondary: #d1d5db;
   --accent-color: #34d399;
 }
 
@@ -54,6 +54,16 @@
 
   h1, h2, h3, h4, h5, h6 {
     @apply font-display;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+    font-variant-ligatures: common-ligatures;
+  }
+
+  body {
+    font-feature-settings: 'kern', 'liga', 'clig', 'calt';
+    font-variant-ligatures: common-ligatures;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   /* Custom scrollbar */
@@ -146,6 +156,67 @@
 
 /* Utility Classes */
 @layer utilities {
+  /* Modern Typography Utilities */
+  .text-display {
+    @apply font-display font-bold tracking-tight;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+  }
+  
+  .text-body {
+    @apply font-sans leading-relaxed;
+    font-feature-settings: 'kern', 'liga', 'clig', 'calt';
+  }
+  
+  .text-mono {
+    @apply font-mono;
+    font-feature-settings: 'calt', 'liga';
+    font-variant-ligatures: common-ligatures;
+  }
+  
+  .text-vietnamese {
+    @apply font-vietnamese;
+  }
+  
+  /* Enhanced readability for different content types */
+  .text-heading-xl {
+    @apply text-display text-4xl lg:text-6xl xl:text-7xl;
+    line-height: 0.95;
+    letter-spacing: -0.025em;
+  }
+  
+  .text-heading-lg {
+    @apply text-display text-3xl lg:text-4xl xl:text-5xl;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+  
+  .text-heading-md {
+    @apply text-display text-2xl lg:text-3xl;
+    line-height: 1.2;
+    letter-spacing: -0.015em;
+  }
+  
+  .text-heading-sm {
+    @apply text-display text-xl lg:text-2xl;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+  }
+  
+  .text-body-lg {
+    @apply text-body text-lg lg:text-xl;
+    line-height: 1.7;
+  }
+  
+  .text-body-md {
+    @apply text-body text-base lg:text-lg;
+    line-height: 1.6;
+  }
+  
+  .text-body-sm {
+    @apply text-body text-sm lg:text-base;
+    line-height: 1.5;
+  }
+  
   /* Dark mode specific text utilities */
   .text-readable {
     @apply text-gray-100;
@@ -171,8 +242,30 @@
   .dark .text-muted {
     @apply text-gray-400;
   }
+  
   .text-shadow {
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  }
+  
+  /* Advanced typography features */
+  .font-feature-numbers {
+    font-feature-settings: 'tnum', 'lnum';
+    font-variant-numeric: tabular-nums lining-nums;
+  }
+  
+  .font-feature-fractions {
+    font-feature-settings: 'frac';
+    font-variant-numeric: diagonal-fractions;
+  }
+  
+  .font-feature-ordinals {
+    font-feature-settings: 'ordn';
+    font-variant-numeric: ordinal;
+  }
+  
+  .font-feature-small-caps {
+    font-feature-settings: 'smcp';
+    font-variant-caps: small-caps;
   }
 
   .bg-nature {
