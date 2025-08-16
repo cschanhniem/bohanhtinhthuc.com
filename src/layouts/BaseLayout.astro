@@ -25,7 +25,7 @@ import '../styles/global.css';
 ---
 
 <!doctype html>
-<html lang="vi" class="scroll-smooth">
+<html lang="vi" class="dark scroll-smooth">
   <head>
     <!-- Basic Meta Tags -->
     <meta charset="UTF-8" />
@@ -88,8 +88,8 @@ import '../styles/global.css';
     })} />
     
     <!-- Theme Color -->
-    <meta name="theme-color" content="#f9fafb" />
-    <meta name="msapplication-TileColor" content="#f9fafb" />
+    <meta name="theme-color" content="#0f172a" />
+    <meta name="msapplication-TileColor" content="#0f172a" />
     
     <!-- Performance Hints -->
     <meta name="format-detection" content="telephone=no" />
@@ -97,23 +97,23 @@ import '../styles/global.css';
     
     <!-- Import Global Styles -->
     <style>
-      /* Critical CSS for above-the-fold content - Light Mode */
+      /* Critical CSS for above-the-fold content - Dark Mode */
       body {
         background-image: url('/assets/images/walking.jpg');
         background-attachment: fixed;
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
-        color: #1f2937;
+        color: #f3f4f6;
       }
       
       /* Prevent flash of unstyled content */
       .glass-card {
-        background: rgba(255, 255, 255, 0.8);
+        background: rgba(255, 255, 255, 0.1);
         backdrop-filter: blur(20px);
         -webkit-backdrop-filter: blur(20px);
-        border: 1px solid rgba(0, 0, 0, 0.1);
-        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
       }
     </style>
   </head>

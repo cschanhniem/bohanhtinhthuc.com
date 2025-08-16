@@ -5,24 +5,24 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Custom Properties - Light Mode Only */
+/* Custom Properties - Dark Mode Only */
 :root {
-  --glass-bg: rgba(255, 255, 255, 0.8);
-  --glass-border: rgba(0, 0, 0, 0.1);
-  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
-  --text-primary: #1f2937;
-  --text-secondary: #6b7280;
-  --accent-color: #059669;
+  --glass-bg: rgba(255, 255, 255, 0.1);
+  --glass-border: rgba(255, 255, 255, 0.2);
+  --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  --text-primary: #f3f4f6;
+  --text-secondary: #a1a1aa;
+  --accent-color: #34d399;
 }
 
 /* Base Styles */
 @layer base {
   * {
-    @apply border-gray-200;
+    @apply border-gray-700;
   }
   
   body {
-    @apply bg-gray-50 text-text-primary font-sans;
+    @apply bg-gray-950 text-text-primary font-sans;
     background-image: url('/assets/images/walking.jpg');
     background-attachment: fixed;
     background-size: cover;
@@ -40,9 +40,9 @@
     height: 100%;
     background: linear-gradient(
       135deg, 
-      rgba(255, 255, 255, 0.7) 0%, 
-      rgba(255, 255, 255, 0.8) 50%,
-      rgba(255, 255, 255, 0.75) 100%
+      rgba(0, 0, 0, 0.3) 0%, 
+      rgba(0, 0, 0, 0.5) 50%,
+      rgba(0, 0, 0, 0.4) 100%
     );
     z-index: -1;
     pointer-events: none;
@@ -62,15 +62,15 @@
   }
 
   ::-webkit-scrollbar-track {
-    @apply bg-gray-100/50;
+    @apply bg-gray-900/50;
   }
 
   ::-webkit-scrollbar-thumb {
-    @apply bg-accent-color/40 rounded-full;
+    @apply bg-accent-color/30 rounded-full;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    @apply bg-accent-color/60;
+    @apply bg-accent-color/50;
   }
 }
 
@@ -86,7 +86,7 @@
   }
 
   .glass-header {
-    background: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.05);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     border-bottom: 1px solid var(--glass-border);
@@ -94,15 +94,15 @@
   }
 
   .btn-glass {
-    @apply glass-card px-6 py-3 text-text-primary font-medium transition-all duration-300 hover:bg-gray-100/50 hover:scale-105 active:scale-95;
+    @apply glass-card px-6 py-3 text-text-primary font-medium transition-all duration-300 hover:bg-white/20 hover:scale-105 active:scale-95;
   }
 
   .btn-primary {
-    @apply bg-accent-color/20 text-accent-color border border-accent-color/30 hover:bg-accent-color hover:text-white hover:shadow-lg hover:shadow-accent-color/25;
+    @apply bg-accent-color/20 text-accent-color border border-accent-color/30 hover:bg-accent-color hover:text-gray-900 hover:shadow-lg hover:shadow-accent-color/25;
   }
 
   .prose-glass {
-    @apply prose prose-lg prose-gray max-w-none;
+    @apply prose prose-lg prose-invert max-w-none;
   }
 
   .prose-glass img {

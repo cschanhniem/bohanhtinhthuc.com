@@ -1,6 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
+  darkMode: 'class',
   theme: {
     extend: {
       fontFamily: {
@@ -22,15 +23,15 @@ module.exports = {
           950: '#052e16',
         },
         glass: {
-          light: 'rgba(255, 255, 255, 0.8)',
-          medium: 'rgba(255, 255, 255, 0.9)',
-          dark: 'rgba(255, 255, 255, 0.7)',
+          light: 'rgba(255, 255, 255, 0.1)',
+          medium: 'rgba(255, 255, 255, 0.2)',
+          dark: 'rgba(255, 255, 255, 0.05)',
         },
-        'accent-color': '#059669',
+        'accent-color': '#34d399',
         text: {
-          primary: '#1f2937',
-          secondary: '#6b7280',
-          accent: '#059669',
+          primary: '#f3f4f6',
+          secondary: '#a1a1aa',
+          accent: '#34d399',
         },
       },
       backdropBlur: {
