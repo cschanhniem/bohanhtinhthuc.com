@@ -67,29 +67,29 @@ const years = Object.keys(postsByYear).map(Number).sort((a, b) => b - a);
         </h1>
         
         <p class="text-xl md:text-2xl text-text-secondary max-w-4xl mx-auto leading-relaxed">
-          Những câu chuyện chân thực từ con đường thực hành tỉnh thức xuyên Việt, 
-          mỗi bước chân nuôi dưỡng yêu thương, mỗi ngày là một bài học về cuộc sống.
+          Hành trình liên tục với những cập nhật mỗi ngày. Tham gia 3-7 ngày để cùng thực hành tỉnh thức 
+          và kết nối với cộng đồng qua Discord và Facebook.
         </p>
       </div>
 
-      <!-- Journey Statistics -->
+      <!-- Community Participation -->
       <GlassCard class="max-w-4xl mx-auto">
         <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
           <div>
-            <div class="text-3xl md:text-4xl font-bold text-accent-color mb-2">{totalDays}</div>
-            <div class="text-sm text-text-secondary">Ngày đã đi</div>
+            <div class="text-3xl md:text-4xl font-bold text-accent-color mb-2">3-7 ngày</div>
+            <div class="text-sm text-text-secondary">Thời gian tham gia</div>
           </div>
           <div>
-            <div class="text-3xl md:text-4xl font-bold text-accent-color mb-2">{totalDistance}km</div>
-            <div class="text-sm text-text-secondary">Tổng quãng đường</div>
+            <div class="text-3xl md:text-4xl font-bold text-accent-color mb-2">Mỗi ngày</div>
+            <div class="text-sm text-text-secondary">Cập nhật mới</div>
           </div>
           <div>
-            <div class="text-3xl md:text-4xl font-bold text-accent-color mb-2">{averageDistance}km</div>
-            <div class="text-sm text-text-secondary">Trung bình/ngày</div>
+            <div class="text-3xl md:text-4xl font-bold text-accent-color mb-2">Discord</div>
+            <div class="text-sm text-text-secondary">Cộng đồng chính</div>
           </div>
           <div>
-            <div class="text-3xl md:text-4xl font-bold text-accent-color mb-2">{allProvinces.length}</div>
-            <div class="text-sm text-text-secondary">Tỉnh thành</div>
+            <div class="text-3xl md:text-4xl font-bold text-accent-color mb-2">Facebook</div>
+            <div class="text-sm text-text-secondary">Theo dõi hàng ngày</div>
           </div>
         </div>
       </GlassCard>
@@ -409,6 +409,42 @@ const years = Object.keys(postsByYear).map(Number).sort((a, b) => b - a);
               #{tag}
             </button>
           ))}
+        </div>
+      </GlassCard>
+    </div>
+  </section>
+
+  <!-- Call to Action -->
+  <section class="py-16 lg:py-24 bg-gradient-to-b from-transparent to-gray-900/30">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <GlassCard padding="xl" class="text-center">
+        <h2 class="text-2xl md:text-3xl font-bold text-text-primary mb-6">
+          Tham gia hành trình tỉnh thức
+        </h2>
+        
+        <p class="text-lg text-text-secondary mb-8 max-w-2xl mx-auto">
+          Đăng ký tham gia 3-7 ngày để cùng thực hành sống tỉnh thức. 
+          Theo dõi cập nhật hàng ngày trên Discord và Facebook.
+        </p>
+        
+        <div class="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6">
+          <Button
+            variant="primary"
+            size="lg"
+            href="https://discord.gg/your-discord-link"
+            icon="arrow"
+            iconPosition="right"
+          >
+            Tham gia Discord
+          </Button>
+          
+          <Button
+            variant="outline"
+            size="lg"
+            href="https://facebook.com/groups/your-facebook-group"
+          >
+            Theo dõi Facebook
+          </Button>
         </div>
       </GlassCard>
     </div>
